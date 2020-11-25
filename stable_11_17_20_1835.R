@@ -26,9 +26,9 @@ ui <- fluidPage(
                         plotOutput("plot", width = "500px", height = "500px",
                                    hover = hoverOpts(id = "hover", delay = 100, delayType = "throttle", clip = TRUE, nullOutside = TRUE),
                                    click = "click")),
-               # tab option 2: tbd
-               # mini-project which looks at the data from UFC fighters and predicts who would win a fight based off of previous fights
-               tabPanel(title = "Testing",
+               # tab option 2: Diabetes
+               # mini-project which looks at the 
+               tabPanel(title = "Diabetes",
                         actionButton("test", "test")),
                
                # tab option 3: About
