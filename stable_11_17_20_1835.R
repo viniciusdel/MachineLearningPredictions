@@ -62,8 +62,14 @@ server <- function(input, output) {
     
     # Send button -> send the user-drawn number to the machine learning algorithm
     observeEvent(input$send, handlerExpr = {
-        vals$x <- NULL; vals$y <- NULL
-        #add image processing + prediction here + show result
+        #vals$x <- NULL; vals$y <- NULL
+        png(file="myPlot.png",
+            width=500, height=500)
+        
+        plot(x = vals$x, y = vals$y, type = "l")
+        
+        dev.off()
+        #add image processing + prediction here + show result + agick to trim the image, blur, and re-size.
     })
     
     observeEvent(input$hover, {
