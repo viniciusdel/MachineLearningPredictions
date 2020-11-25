@@ -57,11 +57,13 @@ server <- function(input, output) {
     # Reset button -> Clear the plot
     observeEvent(input$reset, handlerExpr = {
         vals$x <- NULL; vals$y <- NULL
+        #clear shown result
     })
     
     # Send button -> send the user-drawn number to the machine learning algorithm
     observeEvent(input$send, handlerExpr = {
         vals$x <- NULL; vals$y <- NULL
+        #add image processing + prediction here + show result
     })
     
     observeEvent(input$hover, {
