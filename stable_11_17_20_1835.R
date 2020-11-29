@@ -10,6 +10,9 @@
 # load the shiny package
 library(shiny)
 
+#install.packages("magick")
+library(magick)
+
 # Define UI for application
 ui <- fluidPage(
     
@@ -66,10 +69,40 @@ server <- function(input, output) {
         png(file="myPlot.png",
             width=500, height=500)
         
+        
+        #make line thicc
         plot(x = vals$x, y = vals$y, type = "l", lwd = 6)
         
+        #save image
         dev.off()
-        #add image processing + prediction here + show result + agick to trim the image, blur, and re-size.
+        
+        #reload image
+        img <- image_read("myPlot.png")
+        
+        #crop sides
+        margin <- geometry_area(x = 70, y = 70, width = 390, height = 350)
+        
+        #crop sides
+        img <- image_crop(img, margin)
+        
+        #resize to 28x28
+        img <- image_resize(img, "28x28!")
+        
+        #save image
+        image_write(img, path = "myPlot.png", format = "png", quality = 75)
+        
+        #grayscale
+        img <- image_convert(img, type = 'Grayscale')
+        
+        #convert to grayscale
+        tiffImage <- image_convert(img, "tiff")
+        
+        # Access data in raw format and convert to integer (it's in HEX)
+        vec <- as.vector(tiffImage[[1]])
+        
+        #TRYING TO CONVERT TO INTEGERS FROM 0-255
+        cat(length(vec))
+        cat(vec)
     })
     
     observeEvent(input$hover, {
