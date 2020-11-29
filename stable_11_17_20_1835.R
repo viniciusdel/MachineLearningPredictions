@@ -66,7 +66,7 @@ server <- function(input, output) {
         png(file="myPlot.png",
             width=500, height=500)
         
-        plot(x = vals$x, y = vals$y, type = "l")
+        plot(x = vals$x, y = vals$y, type = "l", lwd = 6)
         
         dev.off()
         #add image processing + prediction here + show result + agick to trim the image, blur, and re-size.
