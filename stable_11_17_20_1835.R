@@ -23,12 +23,18 @@ ui <- fluidPage(
                # TAB 1: Number Recognition
                # mini-project which accepts user-drawn numbers and displays the number as a text output
                tabPanel(title = "Number Recognition",
+                    fluidRow(column(width = 3,
+                    wellPanel(
                         h4("Click on the plot to start drawing, click again to pause"),
                         sliderInput("mywidth", "width of the pencil", min = 1, max = 30, step = 1, value = 10),
                         actionButton(inputId = "reset", label = "reset", style = "background-color: #ff0000"),
-                        actionButton(inputId = "send", label = "send", style = "background-color: #00ff00"),
+                        actionButton(inputId = "send", label = "send", style = "background-color: #00ff00")
+                        )
+                    )
+                    ),
                         plotOutput("plot", width = "500px", height = "500px",
-                                   hover = hoverOpts(id = "hover", delay = 100, delayType = "throttle", clip = TRUE, nullOutside = TRUE),click = "click")),
+                                   hover = hoverOpts(id = "hover", delay = 100, delayType = "throttle", clip = TRUE, nullOutside = TRUE),click = "click")
+                ),
                
                # *************************
                # TAB 2: Personal Medical Insurance Costs
