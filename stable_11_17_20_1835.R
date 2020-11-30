@@ -34,18 +34,28 @@ ui <- fluidPage(
                # TAB 2: Personal Medical Insurance Costs
                # mini-project which looks at the multiple factors that are considered when a person registers for Medical Insurance
                tabPanel(title = "Personal Medical Insurance Costs",
-                        h4("Please fill out the following fields:"),
-                        numericInput(inputId = "age", label = "Age, years", value = 1, min = 1, max = 101, step = 1, width = "150px"),
-                        selectInput(inputId = "sex", label = "Sex, gender", choices = c("Male", "Female"), width = "150px"),
-                        h5("Height:"),
-                        splitLayout(numericInput(inputId = "feet", label = "ft", value = 5, min = 4, max = 8, step = 1, width = "150px"),
-                                    numericInput(inputId = "inches", label = "in.", value = 11, min = 1, max = 11, step = 1, width = "150px"), cellWidths = "150px"),
-                        numericInput(inputId = "weight", label = "Weight, lbs", value = 155, min = 80, max = 300, step = 1, width = "150px"),
-                        textOutput(outputId = "bmi"),
-                        numericInput(inputId = "children", label = "Children", value = 0, min = 0, max = 10, step = 1, width = "150px"),
-                        radioButtons(inputId = "smoker", label = "Smoker?", choices = c("No" = "no", "Yes" = "yes")),
-                        selectInput(inputId = "region", label = "Region you currently reside in the US", choices = c("northeast", "southeast", "southwest", "northwest"), width = "150px"),
-                        actionButton(inputId = "submit", label = "submit", style = "background-color: #DCDCDC")),
+                   sidebarLayout(
+                       sidebarPanel(
+                           width = 3,
+                           h4("Please fill out the following fields:"),
+                           numericInput(inputId = "age", label = "Age, years", value = 1, min = 1, max = 101, step = 1, width = "150px"),
+                           selectInput(inputId = "sex", label = "Sex, gender", choices = c("Male", "Female"), width = "150px"),
+                           h5("Height:"),
+                           
+                           wellPanel(
+                               splitLayout(
+                                   numericInput(inputId = "feet", label = "ft", value = 5, min = 4, max = 8, step = 1, width = "150px"),
+                                   numericInput(inputId = "inches", label = "in.", value = 11, min = 1, max = 11, step = 1, width = "150px"), cellWidths = "150px"),
+                               ),
+                           numericInput(inputId = "children", label = "Children", value = 0, min = 0, max = 10, step = 1, width = "150px"),
+                           radioButtons(inputId = "smoker", label = "Smoker?", choices = c("No" = "no", "Yes" = "yes")),
+                           selectInput(inputId = "region", label = "Region you currently reside in the US", choices = c("northeast", "southeast", "southwest", "northwest"), width = "150px"),
+                           actionButton(inputId = "submit", label = "submit", style = "background-color: #DCDCDC")
+                       ),
+                   mainPanel() # Plots will go inside here
+                   ),
+                   
+               ),
                
                # *************************
                # TAB 3: Diabetes
