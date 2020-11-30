@@ -23,17 +23,18 @@ ui <- fluidPage(
                # TAB 1: Number Recognition
                # mini-project which accepts user-drawn numbers and displays the number as a text output
                tabPanel(title = "Number Recognition",
-                    fluidRow(column(width = 3,
-                    wellPanel(
-                        h4("Click on the plot to start drawing, click again to pause"),
-                        sliderInput("mywidth", "width of the pencil", min = 1, max = 30, step = 1, value = 10),
-                        actionButton(inputId = "reset", label = "reset", style = "background-color: #ff0000"),
-                        actionButton(inputId = "send", label = "send", style = "background-color: #00ff00")
-                        )
-                    )
-                    ),
-                        plotOutput("plot", width = "500px", height = "500px",
-                                   hover = hoverOpts(id = "hover", delay = 100, delayType = "throttle", clip = TRUE, nullOutside = TRUE),click = "click")
+                   fluidRow(
+                       column(width = 3,
+                           wellPanel(
+                               h4("Click on the plot to start drawing, click again to pause"),
+                               sliderInput("mywidth", "width of the pencil", min = 1, max = 30, step = 1, value = 10),
+                               actionButton(inputId = "reset", label = "reset", style = "background-color: #ff0000"),
+                               actionButton(inputId = "send", label = "send", style = "background-color: #00ff00")
+                           )
+                       )
+                   ),
+                       plotOutput("plot", width = "500px", height = "500px",
+                                  hover = hoverOpts(id = "hover", delay = 100, delayType = "throttle", clip = TRUE, nullOutside = TRUE),click = "click")
                 ),
                
                # *************************
@@ -53,12 +54,14 @@ ui <- fluidPage(
                                    numericInput(inputId = "feet", label = "ft", value = 5, min = 4, max = 8, step = 1, width = "150px"),
                                    numericInput(inputId = "inches", label = "in.", value = 11, min = 1, max = 11, step = 1, width = "150px"), cellWidths = "150px"),
                                ),
+                           numericInput(inputId = "weight", label = "Weight, lbs", value = 155, min = 85, max = 350, step = 1, width = "150px"),
                            numericInput(inputId = "children", label = "Children", value = 0, min = 0, max = 10, step = 1, width = "150px"),
                            radioButtons(inputId = "smoker", label = "Smoker?", choices = c("No" = "no", "Yes" = "yes")),
                            selectInput(inputId = "region", label = "Region you currently reside in the US", choices = c("northeast", "southeast", "southwest", "northwest"), width = "150px"),
                            actionButton(inputId = "submit", label = "submit", style = "background-color: #DCDCDC")
                        ),
-                   mainPanel() # Plots will go inside here
+                   mainPanel(h5("BMI of individual:"),
+                       textOutput(outputId = "bmi")) # Plots will go inside here
                    ),
                    
                ),
