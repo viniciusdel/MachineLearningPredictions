@@ -33,13 +33,13 @@ ui <- fluidPage(
                                actionButton(inputId = "send", label = "send", style = "background-color: #adffad")
                            ),
                            
-                           plotOutput("plot", #width = "400px", height = "500px",
+                           plotOutput("plot", width = "400px", height = "500px",
                                       hover = hoverOpts(id = "hover", delay = 100,
                                                         delayType = "throttle", clip = TRUE, nullOutside = TRUE), click = "click"),
                            
                        ),
                        
-                       column(width = 7, allign = "center",
+                       column(width = 4, allign = "center",
                             wellPanel(
                                 h4("Your predicted number was: "),
                                 h1(textOutput("my_pred"))
