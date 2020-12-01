@@ -177,7 +177,7 @@ server <- function(input, output) {
         
         #make line thicc
         plot(0:27, 0:27, lwd = 0.1, cex = 0, xlab = "", ylab = "", axes = FALSE)
-        points(x = vals$x, y = vals$y, type = "l", lwd = 35)
+        points(x = vals$x, y = vals$y, type = "l", lwd = 50)
     
         #save image
         dev.off()
