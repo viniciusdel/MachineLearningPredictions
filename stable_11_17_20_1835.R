@@ -24,6 +24,8 @@ ui <- fluidPage(
                # TAB 1: Number Recognition
                # mini-project which accepts user-drawn numbers and displays the number as a text output
                tabPanel(title = "Number Recognition",
+                        
+                        #include description here
                    fluidRow(
                        column(width = 4,
                            wellPanel(
@@ -39,7 +41,7 @@ ui <- fluidPage(
                            
                        ),
                        
-                       column(width = 4, allign = "center",
+                       column(width = 6, allign = "center",
                             wellPanel(
                                 h4("Your predicted number was: "),
                                 h1(textOutput("my_pred"))
@@ -237,6 +239,8 @@ server <- function(input, output) {
         output$my_pred <- renderText({as.numeric(pred) - 1})
         
         confusionMatrx <- rf$confusion
+        
+        #plot(rf$confusion)
         
         output$confusion <- renderTable({confusionMatrx})
         
