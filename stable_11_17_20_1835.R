@@ -117,6 +117,22 @@ server <- function(input, output) {
         cat("\n Done training! \n")
     }
     
+    printImg <- function(x){
+        #install.packages("RSEIS")
+        library(RSEIS)
+        
+        #pick an image from the test poll
+        number <- x
+        
+        #flip matrix
+        m = matrix(number, nrow = 28, ncol = 28, byrow = FALSE)
+        im_numbers <- apply(m, 2, as.numeric)
+        im_numbers <- mirror.matrix(im_numbers)
+        
+        #show image
+        image(1:28, 1:28, im_numbers, col=gray((0:255)/255))
+    }
+    
     # *************************
     # TAB 1
     library(imager)
@@ -147,7 +163,7 @@ server <- function(input, output) {
         
         
         #make line thicc
-        plot(x = vals$x, y = vals$y, type = "l", lwd = 6)
+        plot(x = vals$x, y = vals$y, type = "l", lwd = 40)
         
         #save image
         dev.off()
@@ -165,7 +181,7 @@ server <- function(input, output) {
         img <- image_resize(img, "28x28!")
         
         #save image
-        image_write(img, path = "myPlot.png", format = "png", quality = 75)
+        image_write(img, path = "myPlot.png", format = "png", quality = 100)
         
         #grayscale
         img <- image_convert(img, type = 'Grayscale')
@@ -191,12 +207,18 @@ server <- function(input, output) {
         
         #cat("\n" ,vec)
         
+        vec[is.na(vec)] <- 0
+        
+        #print(vec)
+        
         #trainmodels()
         
-        # Restore the object
+        library(randomForest)        
+        
+        # Restore the object RF trained 
         rf <- readRDS(file = "rf_trained.rds")
         
-        library(randomForest)
+        #print(rf)
         
         #make prediction
         pred <- predict(object = rf, newdata = vec, type= "response")
@@ -204,7 +226,10 @@ server <- function(input, output) {
         #show prediction
         cat("\n", as.numeric(pred) - 1)
         
-        renderText(as.numeric(pred))
+        #maybe I can add some margins to the image?
+        #maybe the pixels are organized differently?
+        
+        printImg(vec)
     })
     
     observeEvent(input$hover, {
