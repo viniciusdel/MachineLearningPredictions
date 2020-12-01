@@ -177,7 +177,12 @@ server <- function(input, output) {
         
         #make line thicc
         plot(0:27, 0:27, lwd = 0.1, cex = 0, xlab = "", ylab = "", axes = FALSE)
+<<<<<<< HEAD
         points(x = vals$x, y = vals$y, type = "l", lwd = 50)
+=======
+        #lwd is set to the SliderInput size
+        points(x = vals$x, y = vals$y, type = "l", lwd = input$mywidth)
+>>>>>>> 278638856378deb319df4378b86995b3f88ae33b
     
         #save image
         dev.off()
