@@ -27,7 +27,7 @@ ui <- fluidPage(
                        column(width = 3,
                            wellPanel(
                                h4("Click on the plot to start drawing, click again to pause"),
-                               sliderInput("mywidth", "width of the pencil", min = 1, max = 30, step = 1, value = 10),
+                               #sliderInput(inputId = "mywidth", "width of the pencil", min = 1, max = 30, step = 1, value = 10),
                                actionButton(inputId = "reset", label = "reset", style = "background-color: #ff0000"),
                                actionButton(inputId = "send", label = "send", style = "background-color: #00ff00")
                            )
@@ -162,10 +162,18 @@ server <- function(input, output) {
         png(file="myPlot.png",
             width=500, height=500)
         
+        Xcorners <- c(0, 25.7, 0, 25.7)
+        Ycorners <- c(0, 25.7, 25.7, 0)
+        
+        slider <- 0
         
         #make line thicc
-        plot(x = vals$x, y = vals$y, type = "l", lwd = 40)
+        plot(0:27, 0:27, lwd = 0.1, cex = 0, xlab = "", ylab = "")
+        points(x = vals$x, y = vals$y, type = "l", lwd = 25)
+        points(Xcorners, Ycorners, type = "p", pch = 19)
         
+        #
+    
         #save image
         dev.off()
         
@@ -174,15 +182,16 @@ server <- function(input, output) {
         
         #crop sides
         margin <- geometry_area(x = 0, y = 0, width = 600, height = 600)
+        #margin2 <- geometry_size_pixels(0, 0, )
         
         #crop sides
         img <- image_crop(img, margin)
         
         #resize to 28x28
-        img <- image_resize(img, "28x28!")
+        img <- image_resize(img, "28x28")
         
         #save image
-        image_write(img, path = "myPlot.png", format = "png", quality = 100)
+        #image_write(img, path = "myPlot.png", format = "png", quality = 100)
         
         #grayscale
         img <- image_convert(img, type = 'Grayscale')
@@ -204,15 +213,15 @@ server <- function(input, output) {
         #need to flip these colors
         for(i in 1:784){ vec[i] <- 255 - as.numeric(vec[i])}
         
-        #improve this
-        
-        #cat("\n" ,vec)
-        
         vec[is.na(vec)] <- 255
         
-        #print(vec)
-        
-        #trainmodels()
+        "
+        #filter out smaller values
+        for(i in 1:784){ 
+            if(vec[i] < 15)
+                vec[i] <- 0
+        }
+        "
         
         library(randomForest)        
         
@@ -226,9 +235,6 @@ server <- function(input, output) {
         
         #show prediction
         cat("\n", as.numeric(pred) - 1)
-        
-        #maybe I can add some margins to the image?
-        #maybe the pixels are organized differently?
         
         printImg(vec)
     })
