@@ -34,7 +34,8 @@ ui <- fluidPage(
                        )
                    ),
                        plotOutput("plot", width = "500px", height = "500px",
-                                  hover = hoverOpts(id = "hover", delay = 100, delayType = "throttle", clip = TRUE, nullOutside = TRUE),click = "click")
+                                  hover = hoverOpts(id = "hover", delay = 100,
+                                                    delayType = "throttle", clip = TRUE, nullOutside = TRUE),click = "click")
                 ),
                
                # *************************
@@ -172,7 +173,7 @@ server <- function(input, output) {
         img <- image_read("myPlot.png")
         
         #crop sides
-        margin <- geometry_area(x = 70, y = 70, width = 390, height = 350)
+        margin <- geometry_area(x = 0, y = 0, width = 600, height = 600)
         
         #crop sides
         img <- image_crop(img, margin)
@@ -185,8 +186,6 @@ server <- function(input, output) {
         
         #grayscale
         img <- image_convert(img, type = 'Grayscale')
-        
-        ##img <- blur_anisotropic(img,ampl=1e4,sharp=1)
         
         #convert to grayscale
         tiffImage <- image_convert(img, "tiff")
@@ -205,9 +204,11 @@ server <- function(input, output) {
         #need to flip these colors
         for(i in 1:784){ vec[i] <- 255 - as.numeric(vec[i])}
         
+        #improve this
+        
         #cat("\n" ,vec)
         
-        vec[is.na(vec)] <- 0
+        vec[is.na(vec)] <- 255
         
         #print(vec)
         
