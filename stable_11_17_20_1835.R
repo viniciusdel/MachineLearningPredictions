@@ -186,7 +186,7 @@ server <- function(input, output) {
         #grayscale
         img <- image_convert(img, type = 'Grayscale')
         
-        #img <- blur_anisotropic(img,ampl=1e4,sharp=1)
+        ##img <- blur_anisotropic(img,ampl=1e4,sharp=1)
         
         #convert to grayscale
         tiffImage <- image_convert(img, "tiff")
