@@ -32,15 +32,16 @@ ui <- fluidPage(
                                actionButton(inputId = "send", label = "send", style = "background-color: #adffad")
                            ),
                            
-                           plotOutput("plot", width = "500px", height = "500px",
+                           plotOutput("plot", width = "400px", height = "500px",
                                       hover = hoverOpts(id = "hover", delay = 100,
-                                                        delayType = "throttle", clip = TRUE, nullOutside = TRUE), click = "click")
+                                                        delayType = "throttle", clip = TRUE, nullOutside = TRUE), click = "click"),
+                           
                        ),
                        
-                       column(width = 4,
-                            h4("Here we can see the confusion matrix: "),
+                       column(width = 4, allign = "center",
                             wellPanel(
-                                
+                                h4("Your predicted number was: "),
+                                h1(textOutput("my_pred"))
                             )
                         )
                    )
@@ -173,15 +174,9 @@ server <- function(input, output) {
         png(file="myPlot.png",
             width=500, height=500)
         
-        Xcorners <- c(0, 25.7, 0, 25.7)
-        Ycorners <- c(0, 25.7, 25.7, 0)
-        
-        slider <- 0
-        
         #make line thicc
         plot(0:27, 0:27, lwd = 0.1, cex = 0, xlab = "", ylab = "", axes = FALSE)
-        points(x = vals$x, y = vals$y, type = "l", lwd = 25)
-        #points(Xcorners, Ycorners, type = "p", pch = 19)
+        points(x = vals$x, y = vals$y, type = "l", lwd = 35)
     
         #save image
         dev.off()
@@ -189,17 +184,11 @@ server <- function(input, output) {
         #reload image
         img <- image_read("myPlot.png")
         
-        #crop sides
-        #margin <- geometry_area(x = 0, y = 0, width = 600, height = 600)
-        
-        #crop sides
-        #img <- image_crop(img, margin)
-        
         #resize to 28x28
         img <- image_resize(img, "28x28")
         
         #save image
-        #image_write(img, path = "myPlot.png", format = "png", quality = 100)
+        image_write(img, path = "myPlot.png", format = "png", quality = 100)
         
         #grayscale
         img <- image_convert(img, type = 'Grayscale')
@@ -228,13 +217,13 @@ server <- function(input, output) {
         # Restore the object RF trained 
         rf <- readRDS(file = "rf_trained.rds")
         
-        #print(rf)
-        
         #make prediction
         pred <- predict(object = rf, newdata = vec, type= "response")
         
         #show prediction
-        cat("\n", as.numeric(pred) - 1)
+        #cat("\n", as.numeric(pred) - 1)
+        
+        output$my_pred <- renderText({as.numeric(pred) - 1});
         
         printImg(vec)
     })
