@@ -24,18 +24,29 @@ ui <- fluidPage(
                # mini-project which accepts user-drawn numbers and displays the number as a text output
                tabPanel(title = "Number Recognition",
                    fluidRow(
-                       column(width = 3,
+                       column(width = 4,
                            wellPanel(
                                h4("Click on the plot to start drawing, click again to pause"),
-                               #sliderInput(inputId = "mywidth", "width of the pencil", min = 1, max = 30, step = 1, value = 10),
-                               actionButton(inputId = "reset", label = "reset", style = "background-color: #ff0000"),
-                               actionButton(inputId = "send", label = "send", style = "background-color: #00ff00")
-                           )
-                       )
-                   ),
-                       plotOutput("plot", width = "500px", height = "500px",
-                                  hover = hoverOpts(id = "hover", delay = 100,
-                                                    delayType = "throttle", clip = TRUE, nullOutside = TRUE),click = "click")
+                               sliderInput(inputId = "mywidth", "width of the pencil", min = 1, max = 30, step = 1, value = 10),
+                               actionButton(inputId = "reset", label = "reset", style = "background-color: #ffce8a"),
+                               actionButton(inputId = "send", label = "send", style = "background-color: #adffad")
+                           ),
+                           
+                           plotOutput("plot", width = "500px", height = "500px",
+                                      hover = hoverOpts(id = "hover", delay = 100,
+                                                        delayType = "throttle", clip = TRUE, nullOutside = TRUE), click = "click")
+                       ),
+                       
+                       column(width = 4,
+                            h4("Here we can see the confusion matrix: "),
+                            wellPanel(
+                                
+                            )
+                        )
+                   )
+                       
+                   
+                   
                 ),
                
                # *************************
@@ -168,11 +179,9 @@ server <- function(input, output) {
         slider <- 0
         
         #make line thicc
-        plot(0:27, 0:27, lwd = 0.1, cex = 0, xlab = "", ylab = "")
+        plot(0:27, 0:27, lwd = 0.1, cex = 0, xlab = "", ylab = "", axes = FALSE)
         points(x = vals$x, y = vals$y, type = "l", lwd = 25)
-        points(Xcorners, Ycorners, type = "p", pch = 19)
-        
-        #
+        #points(Xcorners, Ycorners, type = "p", pch = 19)
     
         #save image
         dev.off()
@@ -181,11 +190,10 @@ server <- function(input, output) {
         img <- image_read("myPlot.png")
         
         #crop sides
-        margin <- geometry_area(x = 0, y = 0, width = 600, height = 600)
-        #margin2 <- geometry_size_pixels(0, 0, )
+        #margin <- geometry_area(x = 0, y = 0, width = 600, height = 600)
         
         #crop sides
-        img <- image_crop(img, margin)
+        #img <- image_crop(img, margin)
         
         #resize to 28x28
         img <- image_resize(img, "28x28")
@@ -214,14 +222,6 @@ server <- function(input, output) {
         for(i in 1:784){ vec[i] <- 255 - as.numeric(vec[i])}
         
         vec[is.na(vec)] <- 255
-        
-        "
-        #filter out smaller values
-        for(i in 1:784){ 
-            if(vec[i] < 15)
-                vec[i] <- 0
-        }
-        "
         
         library(randomForest)        
         
