@@ -84,6 +84,39 @@ ui <- fluidPage(
 # Define server logic required
 server <- function(input, output) {
     
+    trainmodels <- function(){
+        # read in data
+        library(readr)
+        
+        #read training data
+        train_orig <- read_csv("train.csv")
+        
+        #read testing data
+        test_orig <- read_csv("test.csv")
+        
+        # save the training labels
+        train_orig_labels <- train_orig[, 1]
+        
+        #convert it to factor (for classification)
+        train_orig_labels <- as.factor(train_orig_labels$label)
+        
+        #install.packages("randomForest")
+        library(randomForest)
+        numTrees <- 25
+        
+        # Train on entire training dataset and predict on the test
+
+        cat("\n Traning model... \n")
+        
+        rf <- randomForest(train_orig[-1], train_orig_labels,
+                           xtest=test_orig, ntree=numTrees, keep.forest=TRUE)
+        
+        # Save an object to a file
+        saveRDS(rf, file = "rf_trained.rds")
+        
+        cat("\n Done training! \n")
+    }
+    
     # *************************
     # TAB 1
     library(imager)
@@ -137,15 +170,41 @@ server <- function(input, output) {
         #grayscale
         img <- image_convert(img, type = 'Grayscale')
         
+        #img <- blur_anisotropic(img,ampl=1e4,sharp=1)
+        
         #convert to grayscale
         tiffImage <- image_convert(img, "tiff")
         
-        # Access data in raw format and convert to integer (it's in HEX)
+        # Access data in raw format and convert to integer (it's in RAW)
         vec <- as.vector(tiffImage[[1]])
         
-        #TRYING TO CONVERT TO INTEGERS FROM 0-255
-        cat(length(vec))
-        cat(vec)
+        # convert o ascii
+        vec <- rawToChar(vec, multiple = TRUE)
+        
+        library(gtools)
+        
+        #convert ascii to its code
+        for(i in 1:784){ vec[i] <- asc(vec[i])}
+        
+        #need to flip these colors
+        for(i in 1:784){ vec[i] <- 255 - as.numeric(vec[i])}
+        
+        #cat("\n" ,vec)
+        
+        #trainmodels()
+        
+        # Restore the object
+        rf <- readRDS(file = "rf_trained.rds")
+        
+        library(randomForest)
+        
+        #make prediction
+        pred <- predict(object = rf, newdata = vec, type= "response")
+        
+        #show prediction
+        cat("\n", as.numeric(pred) - 1)
+        
+        renderText(as.numeric(pred))
     })
     
     observeEvent(input$hover, {
