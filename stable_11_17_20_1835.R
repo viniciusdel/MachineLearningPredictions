@@ -28,21 +28,26 @@ ui <- fluidPage(
                        column(width = 4,
                            wellPanel(
                                h4("Click on the plot to start drawing, click again to pause"),
-                               sliderInput(inputId = "mywidth", "width of the pencil", min = 1, max = 30, step = 1, value = 10),
+                               sliderInput(inputId = "mywidth", "width of the pencil", min = 10, max = 50, step = 1, value = 10),
                                actionButton(inputId = "reset", label = "reset", style = "background-color: #ffce8a"),
                                actionButton(inputId = "send", label = "send", style = "background-color: #adffad")
                            ),
                            
-                           plotOutput("plot", width = "400px", height = "500px",
+                           plotOutput("plot", #width = "400px", height = "500px",
                                       hover = hoverOpts(id = "hover", delay = 100,
                                                         delayType = "throttle", clip = TRUE, nullOutside = TRUE), click = "click"),
                            
                        ),
                        
-                       column(width = 4, allign = "center",
+                       column(width = 7, allign = "center",
                             wellPanel(
                                 h4("Your predicted number was: "),
                                 h1(textOutput("my_pred"))
+                            ),
+                            
+                            wellPanel(
+                                h2("Confusion Matrix: "),
+                                tableOutput("confusion")
                             )
                         )
                    )
@@ -97,6 +102,10 @@ ui <- fluidPage(
 
 # Define server logic required
 server <- function(input, output) {
+    
+    confusionMatrx <- rf$confusion
+    
+    output$confusion <- renderTable({confusionMatrx})
     
     trainmodels <- function(){
         # read in data
@@ -177,12 +186,11 @@ server <- function(input, output) {
         
         #make line thicc
         plot(0:27, 0:27, lwd = 0.1, cex = 0, xlab = "", ylab = "", axes = FALSE)
-<<<<<<< HEAD
-        points(x = vals$x, y = vals$y, type = "l", lwd = 50)
-=======
+
+        #points(x = vals$x, y = vals$y, type = "l", lwd = 50)
+
         #lwd is set to the SliderInput size
         points(x = vals$x, y = vals$y, type = "l", lwd = input$mywidth)
->>>>>>> 278638856378deb319df4378b86995b3f88ae33b
     
         #save image
         dev.off()
@@ -226,10 +234,11 @@ server <- function(input, output) {
         #make prediction
         pred <- predict(object = rf, newdata = vec, type= "response")
         
-        #show prediction
-        #cat("\n", as.numeric(pred) - 1)
+        output$my_pred <- renderText({as.numeric(pred) - 1})
         
-        output$my_pred <- renderText({as.numeric(pred) - 1});
+        confusionMatrx <- rf$confusion
+        
+        output$confusion <- renderTable({confusionMatrx})
         
         printImg(vec)
     })
