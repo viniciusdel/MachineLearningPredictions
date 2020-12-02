@@ -105,6 +105,9 @@ ui <- fluidPage(
 # Define server logic required
 server <- function(input, output) {
     
+    # Restore the object RF trained 
+    rf <- readRDS(file = "rf_trained.rds")
+    
     confusionMatrx <- rf$confusion
     
     output$confusion <- renderTable({confusionMatrx})
