@@ -65,25 +65,25 @@ ui <- fluidPage(
                    sidebarLayout(
                        sidebarPanel(
                            verticalLayout(
-                           width = 3,
-                           h4("Please fill out the following fields:"),
-                           numericInput(inputId = "age", label = "Age, years", value = 1, min = 1, max = 101, step = 1, width = "150px"),
-                           selectInput(inputId = "sex", label = "Sex, gender", choices = c("Male", "Female"), width = "150px"),
-                           h5("Height:"),
-                           
-                           wellPanel(
-                               splitLayout(
-                                   numericInput(inputId = "feet", label = "ft", value = 5, min = 4, max = 8, step = 1, width = "150px"),
-                                   numericInput(inputId = "inches", label = "in.", value = 11, min = 1, max = 11, step = 1, width = "150px"), cellWidths = "150px"),
-                               ),
+                               h4("Please fill out the following fields:"),
+                               numericInput(inputId = "ageInsurance", label = "Age, years", value = 1, min = 1, max = 101, step = 1, width = "150px"),
+                               selectInput(inputId = "sex", label = "Sex, gender", choices = c("Male", "Female"), width = "150px"),
+                               h5("Height:"),
+                               wellPanel(
+                                   splitLayout(
+                                       numericInput(inputId = "feet", label = "ft", value = 5, min = 4, max = 8, step = 1, width = "150px"),
+                                       numericInput(inputId = "inches", label = "in.", value = 11, min = 1, max = 11, step = 1, width = "150px"), cellWidths = "150px"),
+                                   ),
                            numericInput(inputId = "weight", label = "Weight, lbs", value = 155, min = 85, max = 350, step = 1, width = "150px"),
                            numericInput(inputId = "children", label = "Children", value = 0, min = 0, max = 10, step = 1, width = "150px"),
                            radioButtons(inputId = "smoker", label = "Smoker?", choices = c("No" = "no", "Yes" = "yes")),
                            selectInput(inputId = "region", label = "Region you currently reside in the US", choices = c("northeast", "southeast", "southwest", "northwest"), width = "150px"),
                            actionButton(inputId = "submit", label = "submit", style = "background-color: #DCDCDC")
-                       )),
-                   mainPanel(h5("BMI of individual:"),
-                       textOutput(outputId = "bmi")) # Plots will go inside here
+                           )
+                        ),
+                       mainPanel(h5("BMI of individual:"),
+                       textOutput(outputId = "bmi")
+                    ) # Plots will go inside here
                    ),
                ),
                
@@ -94,7 +94,23 @@ ui <- fluidPage(
                         sidebarLayout(
                             sidebarPanel(
                                 verticalLayout(
-                                    
+                                    h4("Please fill out the following fields:"),
+                                    numericInput(inputId = "ageDiabetes", label = "Age, years", value = 1, min = 1, max = 101, step = 1, width = "150px"),
+                                    radioButtons(inputId = "gender", label = "Gender", choices = c("Male" = "male", "Female" = "female")),
+                                    radioButtons(inputId = "polurya", label = "Do you have Polurya?", choices = c("Yes" = "yesPolurya", "No" = "noPolurya")),
+                                    radioButtons(inputId = "polydipsia", label = "Do you have Polydipsia?", choices = c("Yes" = "yesPolydipsia", "No" = "noPolydipsia")),
+                                    radioButtons(inputId = "weightLoss", label = "Have you experienced sudden weight loss recently?", choices = c("Yes" = "yesWeight", "No" = "noWeight")),
+                                    radioButtons(inputId = "weakness", label = "Do you experience weakness regularly?", choices = c("Yes" = "yesWeakness", "No" = "noWeakness")),
+                                    radioButtons(inputId = "polyphagia", label = "Do you have Polyphagia?", choices = c("Yes" = "yesPolyphagia", "No" = "noPolyphagia")),
+                                    radioButtons(inputId = "genitalThrush", label = "Do you have genital thrush?", choices = c("Yes" = "yesGenital", "No" = "noGenital")),
+                                    radioButtons(inputId = "visualBlurring", label = "Do you experience blurred vision?", choices = c("Yes" = "yesBlurring", "No" = "noBlurring")),
+                                    radioButtons(inputId = "icthing", label = "Do you experience itching?", choices = c("Yes" = "yesItching", "No" = "noItcing")),
+                                    radioButtons(inputId = "irritability", label = "Do you experience irritability?", choices = c("Yes" = "yesIrritability", "No" = "noIrritability")),
+                                    radioButtons(inputId = "delayedHealing", label = "Do you experience delayed healing?", choices = c("Yes" = "yesHealing", "No" = "noHealing")),
+                                    radioButtons(inputId = "partialParesis", label = "Do you have partial paresis?", choices = c("Yes" = "yesParesis", "No" = "noParesis")),
+                                    radioButtons(inputId = "muscleStiffness", label = "Do you experience muscle stiffness?", choices = c("Yes" = "yesStiffness", "No" = "noStiffness")),
+                                    radioButtons(inputId = "alopecia", label = "Do you have Alopecia?", choices = c("Yes" = "yesAlopecia", "No" = "noAlopecia")),
+                                    radioButtons(inputId = "obesity", label = "Do you consider yourself obese?", choices = c("Yes" = "yesObesity", "No" = "noObesity"))
                                 )
                             ),
                             mainPanel(
