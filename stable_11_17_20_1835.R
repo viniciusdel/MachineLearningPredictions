@@ -62,6 +62,7 @@ ui <- fluidPage(
                tabPanel(title = "Personal Medical Insurance Costs",
                    sidebarLayout(
                        sidebarPanel(
+                           verticalLayout(
                            width = 3,
                            h4("Please fill out the following fields:"),
                            numericInput(inputId = "age", label = "Age, years", value = 1, min = 1, max = 101, step = 1, width = "150px"),
@@ -78,18 +79,27 @@ ui <- fluidPage(
                            radioButtons(inputId = "smoker", label = "Smoker?", choices = c("No" = "no", "Yes" = "yes")),
                            selectInput(inputId = "region", label = "Region you currently reside in the US", choices = c("northeast", "southeast", "southwest", "northwest"), width = "150px"),
                            actionButton(inputId = "submit", label = "submit", style = "background-color: #DCDCDC")
-                       ),
+                       )),
                    mainPanel(h5("BMI of individual:"),
                        textOutput(outputId = "bmi")) # Plots will go inside here
                    ),
-                   
                ),
                
                # *************************
                # TAB 3: Diabetes
                # page which displays information about the app
-               tabPanel("Diabetes",
-                        h4("This project...")),
+               tabPanel(title = "Diabetes",
+                        sidebarLayout(
+                            sidebarPanel(
+                                verticalLayout(
+                                    
+                                )
+                            ),
+                            mainPanel(
+                                
+                            )
+                        )
+                ),
                
                # *************************
                # TAB 4: About
