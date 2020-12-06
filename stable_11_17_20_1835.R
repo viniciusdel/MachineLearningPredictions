@@ -6,7 +6,7 @@
 #
 #    http://shiny.rstudio.com/
 #
-#TEST 12-1-2020 6:04 pm
+#TEST 12-6-20 3:10pm
 
 # load the shiny package
 library(shiny)
@@ -24,6 +24,8 @@ ui <- fluidPage(
                # TAB 1: Number Recognition
                # mini-project which accepts user-drawn numbers and displays the number as a text output
                tabPanel(title = "Number Recognition",
+                        
+                        #include description here
                    fluidRow(
                        column(width = 4,
                            wellPanel(
@@ -39,7 +41,7 @@ ui <- fluidPage(
                            
                        ),
                        
-                       column(width = 4, allign = "center",
+                       column(width = 6, allign = "center",
                             wellPanel(
                                 h4("Your predicted number was: "),
                                 h1(textOutput("my_pred"))
@@ -105,13 +107,17 @@ ui <- fluidPage(
                # TAB 4: About
                # page which displays information about the app
                tabPanel("About",
-                        h4("hello"))
+                        titlePanel(HTML("<strong>Applications of Machine Learning </strong><br/>COP5090: Scientific Computation and Programming<br/r><br/r> Vinicius Seixas <br/r>Hunter Stopford <br/r>Samuel de Oliveira")),
+                        mainPanel(HTML("<strong>Number Recognition</strong><br/r>")))
     )
 )
 
 
 # Define server logic required
 server <- function(input, output) {
+    
+    # Restore the object RF trained 
+    rf <- readRDS(file = "rf_trained.rds")
     
     confusionMatrx <- rf$confusion
     
@@ -247,6 +253,8 @@ server <- function(input, output) {
         output$my_pred <- renderText({as.numeric(pred) - 1})
         
         confusionMatrx <- rf$confusion
+        
+        #plot(rf$confusion)
         
         output$confusion <- renderTable({confusionMatrx})
         
