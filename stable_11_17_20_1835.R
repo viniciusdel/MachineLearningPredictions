@@ -97,8 +97,8 @@ ui <- fluidPage(
                # TAB 4: About
                # page which displays information about the app
                tabPanel("About",
-                        titlePanel(HTML("<strong>Applications of Machine Learning </strong><br/><br/r> Vinicius Seixas, Hunter Stopford, Samuel de Oliveira")),
-                        mainPanel("Number Recognition"))
+                        titlePanel(HTML("<strong>Applications of Machine Learning </strong><br/>COP5090: Scientific Computation and Programming<br/r><br/r> Vinicius Seixas <br/r>Hunter Stopford <br/r>Samuel de Oliveira")),
+                        mainPanel(HTML("<strong>Number Recognition</strong><br/r>")))
     )
 )
 
