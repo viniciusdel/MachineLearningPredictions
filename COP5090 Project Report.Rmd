@@ -13,14 +13,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # **Abstract**
 
-In this project, we apply various Machine Learning (ML) models to standard problems in the field of computational statistics and optimization. A Random Forest (RF) classifer was used on a large dataset of handwritten numbers in order to train a model to recognize digits rendered on a digital draw-pad. We again used RF to in order to make predictions of insurance costs, given relevant user data like age, sex, BMI, region, etc. 
-
+In this project, we apply various Machine Learning (ML) models to standard problems in the field of computational statistics and optimization, and create a user-interactive Shiny app for demonstration. A Random Forest (RF) classifer was used on a large dataset (~60,000 data points) of handwritten numbers in order to train a model to recognize numbers rendered on a digital draw-pad. We again applied RF to a medical cost dataset (1,338 data points) to create a linear regression model which could then be used in order to make predictions of insurance costs for the user, given relevant data like age, sex, BMI, region, etc. Lastly, we create a medical questionaire which again uses RF to make a highly-predictive diabetes diagnosis for users.  
 
 ## Number Recognition
 
 ### Preliminary Work
-
-
 
 ## Insurance Cost
 
