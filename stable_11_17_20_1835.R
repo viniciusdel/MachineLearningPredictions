@@ -97,7 +97,8 @@ ui <- fluidPage(
                # TAB 4: About
                # page which displays information about the app
                tabPanel("About",
-                        h4("hello"))
+                        titlePanel("hello"),
+                        mainPanel("test"))
     )
 )
 
