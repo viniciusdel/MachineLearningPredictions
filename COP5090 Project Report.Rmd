@@ -22,9 +22,17 @@ Although other ML algorithms were tested on our datasets, we used in our Shiny a
 
 ### Digit Recognition
 
-For the digit recognition application, we trained an RF model with  the MNIST database which is often used for testing and validating optical character recognition devices [ref]. 
+For the digit recognition application, we trained an RF model with  the MNIST database which is often used for testing and validating optical character recognition devices [ref]. The model is trained on a dataset of 42,000 known observations and then validated against another 28,000 observations. 
 
-The model is trained on a dataset of 42,000 known observations and then validated against another 28,000 observations. 
+**Include observation table here**
+
+One important parameter selected was the 'number of trees' (function argument 'ntree') which determines the number of decision trees the algorithm should build prior to evaluating the predictions of each tree, and determining which class was selected by the greatest number of trees. For our model, we 25 as the number of trees. Within the structure of each tree, 28 variables (the digit is a 28x28 pixel image) are tested at each split. A greater number of trees will also make the model training time slower. The training time given our parameters was 209.9 seconds.  
+
+
+### Insurance Cost
+
+### Diabetes
+
 
 ## Discussion 
 
