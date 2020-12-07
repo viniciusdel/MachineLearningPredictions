@@ -280,21 +280,6 @@ server <- function(input, output) {
     # submit button -> send all the inputs to the machine learning algorithm
     observeEvent(input$submitInsuranceForm, handlerExpr = {
         
-        
-        # # calculating and rendering BMI
-        # output$bmi <- renderText({ c(input$feet, input$inches, input$weight)
-        #     
-        #     # converting BMI from Imperial units to Metric units
-        #     heightFeetToInches <- input$feet * 12
-        #     heightTotalInches <- heightFeetToInches + input$inches
-        #     heightTotalMeters <- heightTotalInches * 2.54 * (1/100)
-        #     
-        #     weightKilograms <- input$weight * 0.453592
-        #     
-        #     bmiMetric <- weightKilograms / (heightTotalMeters^2)
-        #     substring(bmiMetric, 1, 4)      # trim the amount of digits to 00.0
-        #     })
-        
         # The values: ageInsurance, sex, bmiMetric, children, smoker, and region
         # will be sent to the machine learning algorithm
         input$ageInsurance
@@ -313,7 +298,6 @@ server <- function(input, output) {
         input$smoker
         input$region
         
-        #replace the hardcoded values here with the gathered INPUTS
         person <- list(age = input$ageInsurance, sex = "female", bmi = bmiMetric, children = input$children, smoker = input$smoker, region = input$region)
         
         #make prediction on price
