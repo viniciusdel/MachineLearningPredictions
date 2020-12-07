@@ -77,13 +77,13 @@ ui <- fluidPage(
                            actionButton(inputId = "submitInsuranceForm", label = "submit")
                            )
                         ),
-                       mainPanel(
+                       mainPanel(width = 9,
                                  verticalLayout(
                                      # Plots will go here...,
                                      renderPlot(
                                          plotOutput(outputId = "medicalInsuranceCostPlot", width = "1000px", height = "1000px")
                                      ),
-                                     h1("Your calculated Medical Insurance Cost is: $", textOutput("insurance_pred"), style = "color: #5CB8B2"),
+                                     h1("Your calculated Medical Insurance Cost is: $", textOutput("insurance_pred"), style = "color: #5CB8B2", br(), hr()),
                                      h4("The ", a(href = "https://www.kaggle.com/mirichoi0218/insurance", "dataset"), " used for this visualization.")
                                  )
                     )
@@ -125,13 +125,13 @@ ui <- fluidPage(
                                 ),
                                 actionButton(inputId = "submitDiabetesForm", label = "submit"),
                             ),
-                            mainPanel(
+                            mainPanel(width = 6,
                                 verticalLayout(
                                     # Plots will go here...,
                                     # renderPlot(
                                     #     plotOutput(outputId = "diabetesPlot", width = "1000px", height = "1000px", click, dblclick, hover, hoverDelay, hoverDelayType, brush, clickId, hoverId, inline)
                                     # ),
-                                    h1("Diabetes Test Results:", textOutput("diabetes_pred"), style = "color: #009FDF"),
+                                    h1("Diabetes Test Results:", textOutput("diabetes_pred"), style = "color: #009FDF", br(), hr()),
                                     h4("The ", a(href = "https://archive.ics.uci.edu/ml/machine-learning-databases/00529/", "dataset")," used for this visualization.")
                                     
                                 )
