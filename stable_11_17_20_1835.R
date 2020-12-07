@@ -25,40 +25,32 @@ ui <- fluidPage(
                # mini-project which accepts user-drawn numbers and displays the number as a text output
                tabPanel(title = "Number Recognition",
                         
-                        #include description here
-                   fluidRow(
-                       column(width = 4,
-                           wellPanel(
-                               h4("Click on the plot to start drawing, click again to pause"),
-                               sliderInput(inputId = "mywidth", "width of the pencil", min = 10, max = 50, step = 1, value = 10),
-                               actionButton(inputId = "reset", label = "reset", style = "background-color: #ffce8a"),
-                               actionButton(inputId = "send", label = "send", style = "background-color: #adffad")
-                           ),
-                           
-                           plotOutput("plot", width = "400px", height = "500px",
-                                      hover = hoverOpts(id = "hover", delay = 100,
-                                                        delayType = "throttle", clip = TRUE, nullOutside = TRUE), click = "click"),
-                           
-                       ),
-                       
-                       column(width = 6, allign = "center",
-                            wellPanel(
-                                h4("Your predicted number was: "),
-                                h1(textOutput("my_pred"))
-                            ),
+                        # include description here
+                        fluidRow(
+                            column(width = 4,
+                                   wellPanel(
+                                       h4("Click on the plot to start drawing, click again to pause"),
+                                       sliderInput(inputId = "mywidth", "width of the pencil", min = 10, max = 50, step = 1, value = 10),
+                                       actionButton(inputId = "reset", label = "reset", style = "background-color: #ffce8a"),
+                                       actionButton(inputId = "send", label = "send", style = "background-color: #adffad")
+                                       ),
+                                   
+                                   plotOutput("plot", width = "400px", height = "500px", hover = hoverOpts(id = "hover", delay = 100, delayType = "throttle", clip = TRUE, nullOutside = TRUE), click = "click")
+                                   ),
                             
-                            wellPanel(
-                                h2("Confusion Matrix: "),
-                                tableOutput("confusion")
-                            ),
-                            
-                            h4("The ", a(href = "http://yann.lecun.com/exdb/mnist/index.html", "database")," used for this visualization.")
-                        )
-                   )
-                       
-                   
-                   
-                ),
+                            column(width = 6, allign = "center",
+                                   wellPanel(
+                                       h4("Your predicted number was: "),
+                                       h1(textOutput("my_pred"))
+                                       ),
+                                   wellPanel(
+                                       h2("Confusion Matrix: "),
+                                       tableOutput("confusion")
+                                       ),
+                                   h4("The ", a(href = "http://yann.lecun.com/exdb/mnist/index.html", "database"), " used for this visualization.")
+                                   )
+                            )
+                        ),
                
                # *************************
                # TAB 2: Personal Medical Insurance Costs
@@ -80,7 +72,7 @@ ui <- fluidPage(
                            numericInput(inputId = "children", label = "Children", value = 0, min = 0, max = 10, step = 1, width = "150px"),
                            radioButtons(inputId = "smoker", label = "Smoker?", choices = c("No" = "no", "Yes" = "yes")),
                            selectInput(inputId = "region", label = "Region you currently reside in the US", choices = c("northeast", "southeast", "southwest", "northwest"), width = "150px"),
-                           actionButton(inputId = "submit", label = "submit", style = "background-color: #DCDCDC")
+                           actionButton(inputId = "submitInsuranceForm", label = "submit")
                            )
                         ),
                        mainPanel(h5("BMI of individual:"),
@@ -88,9 +80,9 @@ ui <- fluidPage(
                                  verticalLayout(
                                      # Plots will go here...,
                                      renderPlot(
-                                         plotOutput(outputId = "medicalInsuranceCostPlot", width = "600px", height = "600px", click, dblclick, hover, hoverDelay, hoverDelayType, brush, clickId, hoverId, inline)
+                                         plotOutput(outputId = "medicalInsuranceCostPlot", width = "1000px", height = "1000px", click, dblclick, hover, hoverDelay, hoverDelayType, brush, clickId, hoverId, inline)
                                      ),
-                                     h4("The ", a(href = "https://www.kaggle.com/mirichoi0218/insurance", "dataset")," used for this visualization.")
+                                     h4("The ", a(href = "https://www.kaggle.com/mirichoi0218/insurance", "dataset"), " used for this visualization.")
                                  )
                     )
                    ),
@@ -119,12 +111,16 @@ ui <- fluidPage(
                                     radioButtons(inputId = "partialParesis", label = "Do you have partial paresis?", choices = c("Yes" = "yesParesis", "No" = "noParesis")),
                                     radioButtons(inputId = "muscleStiffness", label = "Do you experience muscle stiffness?", choices = c("Yes" = "yesStiffness", "No" = "noStiffness")),
                                     radioButtons(inputId = "alopecia", label = "Do you have Alopecia?", choices = c("Yes" = "yesAlopecia", "No" = "noAlopecia")),
-                                    radioButtons(inputId = "obesity", label = "Do you consider yourself obese?", choices = c("Yes" = "yesObesity", "No" = "noObesity"))
+                                    radioButtons(inputId = "obesity", label = "Do you consider yourself obese?", choices = c("Yes" = "yesObesity", "No" = "noObesity")),
+                                    actionButton(inputId = "submitDiabetesForm", label = "submit")
                                 )
                             ),
                             mainPanel(
                                 verticalLayout(
                                     # Plots will go here...,
+                                    renderPlot(
+                                        plotOutput(outputId = "diabetesPlot", width = "1000px", height = "1000px", click, dblclick, hover, hoverDelay, hoverDelayType, brush, clickId, hoverId, inline)
+                                    ),
                                     h4("The ", a(href = "https://archive.ics.uci.edu/ml/machine-learning-databases/00529/", "dataset")," used for this visualization.")
                                     
                                 )
@@ -141,7 +137,7 @@ ui <- fluidPage(
                                         <br/r> <h2> Vinicius Seixas <br/r>
                                         <h4> Machine Learning Algorithms <br/r>
                                         <h2> Hunter Stopford </strong> <br/r>
-                                        <h4> UI layout <br/r>
+                                        <h4> UI Layout <br/r>
                                         <h2> Samuel de Oliveira <br/r>
                                         <h4> Data Visualization </h4>")),
                         mainPanel(HTML("<strong>Number Recognition</strong><br/r>")))
@@ -163,19 +159,19 @@ server <- function(input, output) {
         # read in data
         library(readr)
         
-        #read training data
+        # read training data
         train_orig <- read_csv("train.csv")
         
-        #read testing data
+        # read testing data
         test_orig <- read_csv("test.csv")
         
         # save the training labels
         train_orig_labels <- train_orig[, 1]
         
-        #convert it to factor (for classification)
+        # convert it to factor (for classification)
         train_orig_labels <- as.factor(train_orig_labels$label)
         
-        #install.packages("randomForest")
+        # install.packages("randomForest")
         library(randomForest)
         numTrees <- 25
         
@@ -193,20 +189,21 @@ server <- function(input, output) {
     }
     
     printImg <- function(x){
-        #install.packages("RSEIS")
+        # install.packages("RSEIS")
         library(RSEIS)
         
-        #pick an image from the test poll
+        # pick an image from the test poll
         number <- x
         
-        #flip matrix
+        # flip matrix
         m = matrix(number, nrow = 28, ncol = 28, byrow = FALSE)
         im_numbers <- apply(m, 2, as.numeric)
         im_numbers <- mirror.matrix(im_numbers)
         
-        #show image
+        # show image
         image(1:28, 1:28, im_numbers, col=gray((0:255)/255))
     }
+    
     
     # *************************
     # TAB 1
@@ -227,39 +224,39 @@ server <- function(input, output) {
     # Reset button -> Clear the plot
     observeEvent(input$reset, handlerExpr = {
         vals$x <- NULL; vals$y <- NULL
-        #clear shown result
+        # clear shown result
     })
     
     # Send button -> send the user-drawn number to the machine learning algorithm
     observeEvent(input$send, handlerExpr = {
-        #vals$x <- NULL; vals$y <- NULL
-        png(file="myPlot.png",
-            width=500, height=500)
+        # vals$x <- NULL; vals$y <- NULL
+        png(file = "myPlot.png",
+            width = 500, height = 500)
         
-        #make line thicc
+        # make line thicc
         plot(0:27, 0:27, lwd = 0.1, cex = 0, xlab = "", ylab = "", axes = FALSE)
 
-        #points(x = vals$x, y = vals$y, type = "l", lwd = 50)
+        # points(x = vals$x, y = vals$y, type = "l", lwd = 50)
 
-        #lwd is set to the SliderInput size
+        # lwd is set to the SliderInput size
         points(x = vals$x, y = vals$y, type = "l", lwd = input$mywidth)
     
-        #save image
+        # save image
         dev.off()
         
-        #reload image
+        # reload image
         img <- image_read("myPlot.png")
         
-        #resize to 28x28
+        # resize to 28x28
         img <- image_resize(img, "28x28")
         
-        #save image
+        # save image
         image_write(img, path = "myPlot.png", format = "png", quality = 100)
         
-        #grayscale
+        # grayscale
         img <- image_convert(img, type = 'Grayscale')
         
-        #convert to grayscale
+        # convert to grayscale
         tiffImage <- image_convert(img, "tiff")
         
         # Access data in raw format and convert to integer (it's in RAW)
@@ -270,10 +267,10 @@ server <- function(input, output) {
         
         library(gtools)
         
-        #convert ascii to its code
+        # convert ascii to its code
         for(i in 1:784){ vec[i] <- asc(vec[i])}
         
-        #need to flip these colors
+        # need to flip these colors
         for(i in 1:784){ vec[i] <- 255 - as.numeric(vec[i])}
         
         vec[is.na(vec)] <- 255
@@ -283,14 +280,14 @@ server <- function(input, output) {
         # Restore the object RF trained 
         rf <- readRDS(file = "rf_trained.rds")
         
-        #make prediction
+        # make prediction
         pred <- predict(object = rf, newdata = vec, type= "response")
         
         output$my_pred <- renderText({as.numeric(pred) - 1})
         
         confusionMatrx <- rf$confusion
         
-        #plot(rf$confusion)
+        # plot(rf$confusion)
         
         output$confusion <- renderTable({confusionMatrx})
         
@@ -304,13 +301,14 @@ server <- function(input, output) {
         }})
     output$plot = renderPlot({
         plot(x = vals$x, y = vals$y, xlim = c(0, 28), ylim = c(0, 28), ylab = "y", xlab = "x", type = "l", lwd = input$mywidth)
-        #cat("X value: ", vals$x, "Y Value: ", vals$y, "\n")
+        # cat("X value: ", vals$x, "Y Value: ", vals$y, "\n")
     })
+    
     
     # *************************
     # TAB 2
     # submit button -> send all the inputs to the machine learning algorithm
-    observeEvent(input$submit, handlerExpr = {
+    observeEvent(input$submitInsuranceForm, handlerExpr = {
         
         # calculating and rendering BMI
         output$bmi <- renderText({ c(input$feet, input$inches, input$weight)
@@ -326,11 +324,35 @@ server <- function(input, output) {
             substring(bmiMetric, 1, 4)      # trim the amount of digits to 00.0
             })
         # these values will be sent to the machine learning algorithm
-        # output$age
-        # output$sex
-        # output$children
-        # output$smoker
-        # output$region
+        output$ageInsurance
+        output$sex
+        output$children
+        output$smoker
+        output$region
+    })
+    
+    
+    # *************************
+    # TAB 3
+    # submit button -> send all the inputs to the machine learning algorithm
+    observeEvent(input$submitDiabetesForm, handlerExpr = {
+        
+        output$ageDiabetes
+        output$gender
+        output$polurya
+        output$polydipsia
+        output$weightLoss
+        output$weakness
+        output$polyphagia
+        output$genitalThrush
+        output$visualBlurring
+        output$icthing
+        output$irritability
+        output$delayedHealing
+        output$partialParesis
+        output$muscleStiffness
+        output$alopecia
+        output$obesity
     })
     
     }
