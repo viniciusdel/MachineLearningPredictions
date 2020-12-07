@@ -73,16 +73,16 @@ ui <- fluidPage(
                     numericInput(inputId = "weight", label = "Weight, lbs", value = 155, min = 85, max = 350, step = 1, width = "150px"),
                            numericInput(inputId = "children", label = "Children", value = 0, min = 0, max = 10, step = 1, width = "150px"),
                            radioButtons(inputId = "smoker", label = "Smoker?", choices = c("No" = "no", "Yes" = "yes")),
-                           selectInput(inputId = "region", label = "Region you currently reside in the US", choices = c("northeast", "southeast", "southwest", "northwest"), width = "150px"),
+                           selectInput(inputId = "region", label = "Region in the US you currently reside in", choices = c("northeast", "southeast", "southwest", "northwest"), width = "150px"),
                            actionButton(inputId = "submitInsuranceForm", label = "submit")
                            )
                         ),
                        mainPanel(width = 9,
                                  verticalLayout(
                                      # Plots will go here...,
-                                     renderPlot(
-                                         plotOutput(outputId = "medicalInsuranceCostPlot", width = "1000px", height = "1000px")
-                                     ),
+                                     # renderPlot(
+                                     #     plotOutput(outputId = "medicalInsuranceCostPlot", width = "1000px", height = "1000px")
+                                     # ),
                                      h1("Your calculated Medical Insurance Cost is: $", textOutput("insurance_pred"), style = "color: #5CB8B2", br(), hr()),
                                      h4("The ", a(href = "https://www.kaggle.com/mirichoi0218/insurance", "dataset"), " used for this visualization.")
                                  )
