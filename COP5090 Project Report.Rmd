@@ -9,6 +9,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+>TEST 12-7-20 8:46am
+
 # **Abstract**
 
 In this project, we apply various Machine Learning (ML) models to standard problems in the field of computational statistics and optimization, and create a user-interactive Shiny app for demonstration purposes. A Random Forest (RF) classifier was used on a large dataset of handwritten numerical digits in order to train a model to recognize numbers rendered on a digital draw-pad. We again applied RF to a medical cost dataset to create a regression model which could then be used in order to make predictions of insurance costs for the user, given relevant data like age, sex, BMI, region, etc. Lastly, we create a medical questionnaire which again uses a RF classification model to make a highly-predictive diabetes diagnosis for users. 
