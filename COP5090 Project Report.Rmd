@@ -11,17 +11,20 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # **Abstract**
 
-In this project, we apply various Machine Learning (ML) models to quentissential problems in the field of computational statistics, and create a user-interactive Shiny app for demonstration purposes. A Random Forest (RF) classifier was used on a large dataset of handwritten numerical digits in order to train a model to recognize numbers rendered on a digital draw-pad. We again applied RF to a medical cost dataset to create a regression model which could then be used in order to make predictions of insurance costs for the user, given relevant data like age, sex, BMI, region, etc. Lastly, we create a medical questionnaire which again uses a RF classification model to make a highly-predictive diabetes diagnosis for users. We discuss the differences between the datasets and the metrics used to evaluate the ML algorithms. Lastly, we explain the design of our Shiny application and how the trained ML models were integrated into the user interface. 
+In this project, we apply various Machine Learning (ML) models to quentissential problems in the field of computational statistics, and create a user-interactive Shiny app for demonstration purposes. A Random Forest (RF) classifier was used on a large dataset of handwritten numerical digits in order to train a model to recognize numbers rendered on a digital draw-pad. We again applied RF to a medical cost dataset to create a regression model which could then be used in order to make predictions of insurance costs for the user, given relevant data like age, sex, BMI, region, etc. Lastly, we create a medical questionnaire which again uses a RF classification model to make a highly-predictive diabetes diagnosis for users. We discuss the differences between the datasets and the metrics used to evaluate the ML algorithms. Lastly, we explain the design of our Shiny application and how the the user interface was integrated into the trained ML models. 
 
 ## Introduction 
 
-Although other ML algorithms were tested on our datasets, we used in our Shiny application only the Random Forest algorithm, as designed originally by Leo Breiman and Adele Cutler and implemented into an R package by Andy Liaw and Matthew Weiner. We chose for our datasets one regression example--insurance cost prediction, and two classification examples--digit recognition and diabetic diagnosis. Broadly speaking, supervised machine learning (more on supervised vs. unsupervised in the Discussion section) can be divided into 'regression' and 'classification' algorithms, where a distinguishing feature is whether the output variable type is of a continuous or discrete value. Regression algorithms try to make the best fit line between input variables and values which can be real and continuous, like the price of insurance. Classification algorithms try to make a decision boundary 
+Although other ML algorithms were tested on our datasets, we used in our Shiny application only the Random Forest algorithm, as designed originally by Leo Breiman and Adele Cutler and implemented into an R package by Andy Liaw and Matthew Weiner. We chose for our datasets one regression example--insurance cost prediction, and two classification examples--digit recognition and diabetic diagnosis. Broadly speaking, supervised machine learning (more on supervised vs. unsupervised in the Discussion section) can be divided into 'regression' and 'classification' algorithms, where a distinguishing feature is whether the output variable type is of a continuous or discrete value. Regression algorithms try to make the best fit line between input variables and values which can be real and continuous, like the price of insurance. Classification algorithms try to make a decision boundary such that output value fits into a discrete value or class, like the binary logic of a diagnosis or the value of an integer. 
 
 ## Methods
 
 
+### Digit Recognition
 
-For the digit recognition application, we used the MNIST database which is often used for testing and validating optical character recognition devices. 
+For the digit recognition application, we trained an RF model with  the MNIST database which is often used for testing and validating optical character recognition devices [ref]. 
+
+The model is trained on a dataset of 42,000 known observations and then validated against another 28,000 observations. 
 
 ## Discussion 
 
