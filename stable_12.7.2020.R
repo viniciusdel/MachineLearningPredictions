@@ -11,6 +11,9 @@
 # load the shiny package
 library(shiny)
 
+# load the shinythemes package
+library(shinythemes)
+
 #install.packages("magick")
 library(magick)
 
@@ -18,12 +21,12 @@ library(magick)
 ui <- fluidPage(
     
     # Navigation Bar at the top of the Shiny app
-    navbarPage(title = span("Machine Learning Algorithms in Action", style = "color: #532d8e; font-family: Futura; font-size: 25px"), id = NULL,
+    navbarPage(title = span(strong("Machine Learning Algorithms in Action"), style = "color: #532d8e; font-size: 30px"), id = NULL, theme = shinytheme("readable"),
                
                # *************************
                # TAB 1: Number Recognition
                # mini-project which accepts user-drawn numbers and displays the number as a text output
-               tabPanel(title = "Number Recognition",
+               tabPanel(title = span(strong("Number Recognition"), style = "color: #000000"),
                         
                         # include description here
                         fluidRow(
@@ -55,20 +58,19 @@ ui <- fluidPage(
                # *************************
                # TAB 2: Personal Medical Insurance Costs
                # mini-project which looks at the multiple factors that are considered when a person registers for Medical Insurance
-               tabPanel(title = "Personal Medical Insurance Costs",
+               tabPanel(title = span(strong("Personal Medical Insurance Costs"), style = "color: #000000"),
                    sidebarLayout(
                        sidebarPanel(width = 3,
                            verticalLayout(
                                h4("Please fill out the following fields:"),
-                               numericInput(inputId = "ageInsurance", label = "Age, years", value = 1, min = 1, max = 101, step = 1, width = "150px"),
+                               numericInput(inputId = "ageInsurance", label = "Age, years", value = 18, min = 1, max = 101, step = 1, width = "150px"),
                                selectInput(inputId = "sex", label = "Sex, gender", choices = c("Male", "Female"), width = "150px"),
                                h5("Height:"),
                                wellPanel(
-                                   splitLayout(
-                                       numericInput(inputId = "feet", label = "ft", value = 5, min = 4, max = 8, step = 1),
-                                       numericInput(inputId = "inches", label = "in.", value = 11, min = 1, max = 11, step = 1), cellWidths = "150px"),
+                                   numericInput(inputId = "feet", label = "ft", value = 5, min = 4, max = 8, step = 1, width = "150px"),
+                                   numericInput(inputId = "inches", label = "in.", value = 11, min = 1, max = 11, step = 1, width = "150px")
                                    ),
-                           numericInput(inputId = "weight", label = "Weight, lbs", value = 155, min = 85, max = 350, step = 1, width = "150px"),
+                    numericInput(inputId = "weight", label = "Weight, lbs", value = 155, min = 85, max = 350, step = 1, width = "150px"),
                            numericInput(inputId = "children", label = "Children", value = 0, min = 0, max = 10, step = 1, width = "150px"),
                            radioButtons(inputId = "smoker", label = "Smoker?", choices = c("No" = "no", "Yes" = "yes")),
                            selectInput(inputId = "region", label = "Region you currently reside in the US", choices = c("northeast", "southeast", "southwest", "northwest"), width = "150px"),
@@ -81,8 +83,8 @@ ui <- fluidPage(
                                      renderPlot(
                                          plotOutput(outputId = "medicalInsuranceCostPlot", width = "1000px", height = "1000px")
                                      ),
-                                     h4("The ", a(href = "https://www.kaggle.com/mirichoi0218/insurance", "dataset"), " used for this visualization."),
-                                     h1(textOutput("insurance_pred"))
+                                     h1("Your calculated Medical Insurance Cost is: $", textOutput("insurance_pred"), style = "color: #5CB8B2"),
+                                     h4("The ", a(href = "https://www.kaggle.com/mirichoi0218/insurance", "dataset"), " used for this visualization.")
                                  )
                     )
                    ),
@@ -91,38 +93,46 @@ ui <- fluidPage(
                # *************************
                # TAB 3: Diabetes
                # mini-project which looks at the multiple factors that are considered when a person is figuring out whether or not they may have Diabetes
-               tabPanel(title = "Diabetes",
+               tabPanel(title = span(strong("Diabetes"), style = "color: #000000"),
                         sidebarLayout(
-                            sidebarPanel(width = 3,
-                                verticalLayout(
-                                    h4("Please fill out the form below:"),
-                                    numericInput(inputId = "ageDiabetes", label = "Age, years", value = 1, min = 1, max = 101, step = 1, width = "150px"),
-                                    radioButtons(inputId = "gender", label = "Gender", choices = c("Male" = "Male", "Female" = "Female")),
-                                    radioButtons(inputId = "polurya", label = "Do you have Polurya?", choices = c("Yes" = "Yes", "No" = "No")),
-                                    radioButtons(inputId = "polydipsia", label = "Do you have Polydipsia?", choices = c("Yes" = "Yes", "No" = "No")),
-                                    radioButtons(inputId = "weightLoss", label = "Have you experienced sudden weight loss recently?", choices = c("Yes" = "Yes", "No" = "No")),
-                                    radioButtons(inputId = "weakness", label = "Do you experience weakness regularly?", choices = c("Yes" = "Yes", "No" = "No")),
-                                    radioButtons(inputId = "polyphagia", label = "Do you have Polyphagia?", choices = c("Yes" = "Yes", "No" = "No")),
-                                    radioButtons(inputId = "genitalThrush", label = "Do you have genital thrush?", choices = c("Yes" = "Yes", "No" = "No")),
-                                    radioButtons(inputId = "visualBlurring", label = "Do you experience blurred vision?", choices = c("Yes" = "Yes", "No" = "No")),
-                                    radioButtons(inputId = "icthing", label = "Do you experience itching?", choices = c("Yes" = "Yes", "No" = "No")),
-                                    radioButtons(inputId = "irritability", label = "Do you experience irritability?", choices = c("Yes" = "Yes", "No" = "No")),
-                                    radioButtons(inputId = "delayedHealing", label = "Do you experience delayed healing?", choices = c("Yes" = "Yes", "No" = "No")),
-                                    radioButtons(inputId = "partialParesis", label = "Do you have partial paresis?", choices = c("Yes" = "Yes", "No" = "No")),
-                                    radioButtons(inputId = "muscleStiffness", label = "Do you experience muscle stiffness?", choices = c("Yes" = "Yes", "No" = "No")),
-                                    radioButtons(inputId = "alopecia", label = "Do you have Alopecia?", choices = c("Yes" = "Yes", "No" = "No")),
-                                    radioButtons(inputId = "obesity", label = "Do you consider yourself obese?", choices = c("Yes" = "Yes", "No" = "No")),
-                                    actionButton(inputId = "submitDiabetesForm", label = "submit")
-                                )
+                            sidebarPanel(
+                                width = 6,
+                                h3("Disclaimer", style = "color: #E0004D"),
+                                h6("This result is not intended to be a substitute for professional medical advice, diagnosis, or treatment.
+                                   Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.", style = "color: #E0004D"),
+                                h4("Please fill out the form below:"),
+                                splitLayout(
+                                    verticalLayout(
+                                        numericInput(inputId = "ageDiabetes", label = "Age, years", value = 18, min = 1, max = 101, step = 1, width = "100px"),
+                                        radioButtons(inputId = "gender", label = "Gender", choices = c("Male" = "Male", "Female" = "Female")),
+                                        radioButtons(inputId = "polurya", label = "Do you have Polurya?", choices = c("No" = "No", "Yes" = "Yes")),
+                                        radioButtons(inputId = "polydipsia", label = "Do you have Polydipsia?", choices = c("No" = "No", "Yes" = "Yes")),
+                                        radioButtons(inputId = "weightLoss", label = "Have you experienced sudden weight loss recently?", choices = c("No" = "No", "Yes" = "Yes")),
+                                        radioButtons(inputId = "weakness", label = "Do you experience weakness regularly?", choices = c("No" = "No", "Yes" = "Yes")),
+                                        radioButtons(inputId = "polyphagia", label = "Do you have Polyphagia?", choices = c("No" = "No", "Yes" = "Yes")),
+                                        radioButtons(inputId = "genitalThrush", label = "Do you have genital thrush?", choices = c("No" = "No", "Yes" = "Yes"))
+                                    ),
+                                    verticalLayout(
+                                        radioButtons(inputId = "visualBlurring", label = "Do you experience blurred vision?", choices = c("No" = "No", "Yes" = "Yes")),
+                                        radioButtons(inputId = "icthing", label = "Do you experience itching?", choices = c("No" = "No", "Yes" = "Yes")),
+                                        radioButtons(inputId = "irritability", label = "Do you experience irritability?", choices = c("No" = "No", "Yes" = "Yes")),
+                                        radioButtons(inputId = "delayedHealing", label = "Do you experience delayed healing?", choices = c("No" = "No", "Yes" = "Yes")),
+                                        radioButtons(inputId = "partialParesis", label = "Do you have partial paresis?", choices = c("No" = "No", "Yes" = "Yes")),
+                                        radioButtons(inputId = "muscleStiffness", label = "Do you experience muscle stiffness?", choices = c("No" = "No", "Yes" = "Yes")),
+                                        radioButtons(inputId = "alopecia", label = "Do you have Alopecia?", choices = c("No" = "No", "Yes" = "Yes")),
+                                        radioButtons(inputId = "obesity", label = "Do you consider yourself obese?", choices = c("No" = "No", "Yes" = "Yes"))
+                                    )
+                                ),
+                                actionButton(inputId = "submitDiabetesForm", label = "submit"),
                             ),
                             mainPanel(
                                 verticalLayout(
                                     # Plots will go here...,
-                                    renderPlot(
-                                        plotOutput(outputId = "diabetesPlot", width = "1000px", height = "1000px", click, dblclick, hover, hoverDelay, hoverDelayType, brush, clickId, hoverId, inline)
-                                    ),
-                                    h4("The ", a(href = "https://archive.ics.uci.edu/ml/machine-learning-databases/00529/", "dataset")," used for this visualization."),
-                                    h1(textOutput("diabetes_pred"))
+                                    # renderPlot(
+                                    #     plotOutput(outputId = "diabetesPlot", width = "1000px", height = "1000px", click, dblclick, hover, hoverDelay, hoverDelayType, brush, clickId, hoverId, inline)
+                                    # ),
+                                    h1("Diabetes Test Results:", textOutput("diabetes_pred"), style = "color: #009FDF"),
+                                    h4("The ", a(href = "https://archive.ics.uci.edu/ml/machine-learning-databases/00529/", "dataset")," used for this visualization.")
                                     
                                 )
                             )
@@ -132,16 +142,19 @@ ui <- fluidPage(
                # *************************
                # TAB 4: About
                # page which displays information about the app
-               tabPanel("About",
+               tabPanel(title = span(strong("About"), style = "color: #000000"),
                         titlePanel(HTML("<strong> Applications of Machine Learning </strong>
                                         <br/r> COP5090: Scientific Computation and Programming <br/r>
                                         <br/r> <h2> Vinicius Seixas <br/r>
-                                        <h4> Machine Learning Algorithms <br/r>
+                                        <h4> Machine Learning Algorithms </h4>
+                                        Numeric Recognition, Personal Medical Insurance Costs, Diabetes <br/r>
                                         <h2> Hunter Stopford </strong> <br/r>
-                                        <h4> UI Layout <br/r>
+                                        <h4> UI Layout </h4>
+                                        Personal Medical Insurance Costs, Diabetes <br/r>
                                         <h2> Samuel de Oliveira <br/r>
-                                        <h4> Data Visualization </h4>")),
-                        mainPanel(HTML("<strong>Number Recognition</strong><br/r>")))
+                                        <h4> Data Visualization </h4>
+                                        Numeric Recognition <br/r>"))
+                        )
     )
 )
 
