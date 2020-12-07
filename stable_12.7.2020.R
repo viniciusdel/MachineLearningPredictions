@@ -81,7 +81,8 @@ ui <- fluidPage(
                                      renderPlot(
                                          plotOutput(outputId = "medicalInsuranceCostPlot", width = "1000px", height = "1000px")
                                      ),
-                                     h4("The ", a(href = "https://www.kaggle.com/mirichoi0218/insurance", "dataset"), " used for this visualization.")
+                                     h4("The ", a(href = "https://www.kaggle.com/mirichoi0218/insurance", "dataset"), " used for this visualization."),
+                                     h1(textOutput("insurance_pred"))
                                  )
                     )
                    ),
@@ -311,17 +312,14 @@ server <- function(input, output) {
         input$smoker
         input$region
         
-        #read the trained model
-        #svm <- readRDS("insurance_fit.rds")
-        
         #replace the hardcoded values here with the gathered INPUTS
-        person <- list(age = 19, sex = "female", bmi = 27, children = 0, smoker = "yes", region = "southwest")
+        person <- list(age = 19, sex = "female", bmi = 27, children = 0, smoker = input$smoker, region = "southwest")
         
         #make prediction on price
-        predict(svm, newdata = person)
+        insurance_pred <- predict(svm, newdata = person)
         
-        
-        
+        #output prediction
+        output$insurance_pred <- renderText({as.numeric(insurance_pred)})
     })
     
     
