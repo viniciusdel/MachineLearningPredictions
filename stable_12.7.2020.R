@@ -27,7 +27,7 @@ ui <- fluidPage(
                # TAB 1: Number Recognition
                # mini-project which accepts user-drawn numbers and displays the number as a text output
                tabPanel(title = span(strong("Number Recognition"), style = "color: #000000"),
-                        
+                        "This mini-project takes the user-drawn images and passes it to a machine learning algorithm which recognizes the number and displays it for the user.",
                         # include description here
                         fluidRow(
                             column(width = 4,
@@ -59,6 +59,7 @@ ui <- fluidPage(
                # TAB 2: Personal Medical Insurance Costs
                # mini-project which looks at the multiple factors that are considered when a person registers for Medical Insurance
                tabPanel(title = span(strong("Personal Medical Insurance Costs"), style = "color: #000000"),
+                        "This mini-project takes the inputs from the user and passes them to a machine learning algorithm which decides what the likely cost of medical insurance will be for them.",
                    sidebarLayout(
                        sidebarPanel(width = 3,
                            verticalLayout(
@@ -83,7 +84,8 @@ ui <- fluidPage(
                                      # renderPlot(
                                      #     plotOutput(outputId = "medicalInsuranceCostPlot", width = "1000px", height = "1000px")
                                      # ),
-                                     h1("Your calculated Medical Insurance Cost is: $", textOutput("insurance_pred"), style = "color: #5CB8B2", br(), hr()),
+                                     h1("Your calculated Medical Insurance Cost is ($):"),
+                                     h1(textOutput("insurance_pred"), style = "color: #5CB8B2", br(), hr()),
                                      h4("The ", a(href = "https://www.kaggle.com/mirichoi0218/insurance", "dataset"), " used for this visualization.")
                                  )
                     )
@@ -94,6 +96,7 @@ ui <- fluidPage(
                # TAB 3: Diabetes
                # mini-project which looks at the multiple factors that are considered when a person is figuring out whether or not they may have Diabetes
                tabPanel(title = span(strong("Diabetes"), style = "color: #000000"),
+                        "This mini-project takes the inputs from the user and passes it to a machine learning algortihm which decides whether or not the user may have Diabetes.",
                         sidebarLayout(
                             sidebarPanel(
                                 width = 6,
@@ -131,7 +134,8 @@ ui <- fluidPage(
                                     # renderPlot(
                                     #     plotOutput(outputId = "diabetesPlot", width = "1000px", height = "1000px", click, dblclick, hover, hoverDelay, hoverDelayType, brush, clickId, hoverId, inline)
                                     # ),
-                                    h1("Diabetes Test Results:", textOutput("diabetes_pred"), style = "color: #009FDF", br(), hr()),
+                                    h1("Diabetes Test Results:"),
+                                    h1(textOutput("diabetes_pred"), style = "color: #009FDF", br(), hr()),
                                     h4("The ", a(href = "https://archive.ics.uci.edu/ml/machine-learning-databases/00529/", "dataset")," used for this visualization.")
                                     
                                 )
