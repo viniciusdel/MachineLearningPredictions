@@ -313,7 +313,7 @@ server <- function(input, output) {
         input$region
         
         #replace the hardcoded values here with the gathered INPUTS
-        person <- list(age = 19, sex = "female", bmi = 27, children = 0, smoker = input$smoker, region = "southwest")
+        person <- list(age = input$ageInsurance, sex = "female", bmi = bmiMetric, children = input$children, smoker = input$smoker, region = input$region)
         
         #make prediction on price
         insurance_pred <- predict(svm, newdata = person)
