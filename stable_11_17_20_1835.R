@@ -50,7 +50,9 @@ ui <- fluidPage(
                             wellPanel(
                                 h2("Confusion Matrix: "),
                                 tableOutput("confusion")
-                            )
+                            ),
+                            
+                            h4("The ", a(href = "http://yann.lecun.com/exdb/mnist/index.html", "database")," used for this visualization.")
                         )
                    )
                        
@@ -63,7 +65,7 @@ ui <- fluidPage(
                # mini-project which looks at the multiple factors that are considered when a person registers for Medical Insurance
                tabPanel(title = "Personal Medical Insurance Costs",
                    sidebarLayout(
-                       sidebarPanel(
+                       sidebarPanel(width = 3,
                            verticalLayout(
                                h4("Please fill out the following fields:"),
                                numericInput(inputId = "ageInsurance", label = "Age, years", value = 1, min = 1, max = 101, step = 1, width = "150px"),
@@ -71,8 +73,8 @@ ui <- fluidPage(
                                h5("Height:"),
                                wellPanel(
                                    splitLayout(
-                                       numericInput(inputId = "feet", label = "ft", value = 5, min = 4, max = 8, step = 1, width = "150px"),
-                                       numericInput(inputId = "inches", label = "in.", value = 11, min = 1, max = 11, step = 1, width = "150px"), cellWidths = "150px"),
+                                       numericInput(inputId = "feet", label = "ft", value = 5, min = 4, max = 8, step = 1),
+                                       numericInput(inputId = "inches", label = "in.", value = 11, min = 1, max = 11, step = 1), cellWidths = "150px"),
                                    ),
                            numericInput(inputId = "weight", label = "Weight, lbs", value = 155, min = 85, max = 350, step = 1, width = "150px"),
                            numericInput(inputId = "children", label = "Children", value = 0, min = 0, max = 10, step = 1, width = "150px"),
@@ -82,19 +84,26 @@ ui <- fluidPage(
                            )
                         ),
                        mainPanel(h5("BMI of individual:"),
-                       textOutput(outputId = "bmi")
-                    ) # Plots will go inside here
+                                 textOutput(outputId = "bmi"),
+                                 verticalLayout(
+                                     # Plots will go here...,
+                                     renderPlot(
+                                         plotOutput(outputId = "medicalInsuranceCostPlot", width = "600px", height = "600px", click, dblclick, hover, hoverDelay, hoverDelayType, brush, clickId, hoverId, inline)
+                                     ),
+                                     h4("The ", a(href = "https://www.kaggle.com/mirichoi0218/insurance", "dataset")," used for this visualization.")
+                                 )
+                    )
                    ),
                ),
                
                # *************************
                # TAB 3: Diabetes
-               # page which displays information about the app
+               # mini-project which looks at the multiple factors that are considered when a person is figuring out whether or not they may have Diabetes
                tabPanel(title = "Diabetes",
                         sidebarLayout(
-                            sidebarPanel(
+                            sidebarPanel(width = 3,
                                 verticalLayout(
-                                    h4("Please fill out the following fields:"),
+                                    h4("Please fill out the form below:"),
                                     numericInput(inputId = "ageDiabetes", label = "Age, years", value = 1, min = 1, max = 101, step = 1, width = "150px"),
                                     radioButtons(inputId = "gender", label = "Gender", choices = c("Male" = "male", "Female" = "female")),
                                     radioButtons(inputId = "polurya", label = "Do you have Polurya?", choices = c("Yes" = "yesPolurya", "No" = "noPolurya")),
@@ -114,7 +123,11 @@ ui <- fluidPage(
                                 )
                             ),
                             mainPanel(
-                                
+                                verticalLayout(
+                                    # Plots will go here...,
+                                    h4("The ", a(href = "https://archive.ics.uci.edu/ml/machine-learning-databases/00529/", "dataset")," used for this visualization.")
+                                    
+                                )
                             )
                         )
                 ),
@@ -123,7 +136,14 @@ ui <- fluidPage(
                # TAB 4: About
                # page which displays information about the app
                tabPanel("About",
-                        titlePanel(HTML("<strong>Applications of Machine Learning </strong><br/>COP5090: Scientific Computation and Programming<br/r><br/r> Vinicius Seixas <br/r>Hunter Stopford <br/r>Samuel de Oliveira")),
+                        titlePanel(HTML("<strong> Applications of Machine Learning </strong>
+                                        <br/r> COP5090: Scientific Computation and Programming <br/r>
+                                        <br/r> <h2> Vinicius Seixas <br/r>
+                                        <h4> Machine Learning Algorithms <br/r>
+                                        <h2> Hunter Stopford </strong> <br/r>
+                                        <h4> UI layout <br/r>
+                                        <h2> Samuel de Oliveira <br/r>
+                                        <h4> Data Visualization </h4>")),
                         mainPanel(HTML("<strong>Number Recognition</strong><br/r>")))
     )
 )
