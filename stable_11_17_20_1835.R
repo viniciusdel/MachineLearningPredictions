@@ -75,12 +75,11 @@ ui <- fluidPage(
                            actionButton(inputId = "submitInsuranceForm", label = "submit")
                            )
                         ),
-                       mainPanel(h5("BMI of individual:"),
-                                 textOutput(outputId = "bmi"),
+                       mainPanel(
                                  verticalLayout(
                                      # Plots will go here...,
                                      renderPlot(
-                                         plotOutput(outputId = "medicalInsuranceCostPlot", width = "1000px", height = "1000px", click, dblclick, hover, hoverDelay, hoverDelayType, brush, clickId, hoverId, inline)
+                                         plotOutput(outputId = "medicalInsuranceCostPlot", width = "1000px", height = "1000px")
                                      ),
                                      h4("The ", a(href = "https://www.kaggle.com/mirichoi0218/insurance", "dataset"), " used for this visualization.")
                                  )
@@ -281,7 +280,7 @@ server <- function(input, output) {
         rf <- readRDS(file = "rf_trained.rds")
         
         # make prediction
-        pred <- predict(object = rf, newdata = vec, type= "response")
+        pred <- predict(object = rf, newdata = vec, type = "response")
         
         output$my_pred <- renderText({as.numeric(pred) - 1})
         
@@ -310,49 +309,67 @@ server <- function(input, output) {
     # submit button -> send all the inputs to the machine learning algorithm
     observeEvent(input$submitInsuranceForm, handlerExpr = {
         
-        # calculating and rendering BMI
-        output$bmi <- renderText({ c(input$feet, input$inches, input$weight)
-            
-            # converting BMI from Imperial units to Metric units
-            heightFeetToInches <- input$feet * 12
-            heightTotalInches <- heightFeetToInches + input$inches
-            heightTotalMeters <- heightTotalInches * 2.54 * (1/100)
-            
-            weightKilograms <- input$weight * 0.453592
-            
-            bmiMetric <- weightKilograms / (heightTotalMeters^2)
-            substring(bmiMetric, 1, 4)      # trim the amount of digits to 00.0
-            })
-        # these values will be sent to the machine learning algorithm
-        output$ageInsurance
-        output$sex
-        output$children
-        output$smoker
-        output$region
+        
+        # # calculating and rendering BMI
+        # output$bmi <- renderText({ c(input$feet, input$inches, input$weight)
+        #     
+        #     # converting BMI from Imperial units to Metric units
+        #     heightFeetToInches <- input$feet * 12
+        #     heightTotalInches <- heightFeetToInches + input$inches
+        #     heightTotalMeters <- heightTotalInches * 2.54 * (1/100)
+        #     
+        #     weightKilograms <- input$weight * 0.453592
+        #     
+        #     bmiMetric <- weightKilograms / (heightTotalMeters^2)
+        #     substring(bmiMetric, 1, 4)      # trim the amount of digits to 00.0
+        #     })
+        
+        # The values: ageInsurance, sex, bmiMetric, children, smoker, and region
+        # will be sent to the machine learning algorithm
+        input$ageInsurance
+        input$sex
+        
+        # converting BMI from Imperial units to Metric units
+        heightFeetToInches <- input$feet * 12
+        heightTotalInches <- heightFeetToInches + input$inches
+        heightTotalMeters <- heightTotalInches * 2.54 * (1/100)
+
+        weightKilograms <- input$weight * 0.453592
+
+        bmiMetric <- weightKilograms / (heightTotalMeters^2)
+        
+        input$children
+        input$smoker
+        input$region
+        
     })
     
     
     # *************************
     # TAB 3
     # submit button -> send all the inputs to the machine learning algorithm
+    
+    # Restore the object diabetes_fit.rds
+    rfDiabetes <- readRDS(file = "diabetes_fit.rds")
+    
     observeEvent(input$submitDiabetesForm, handlerExpr = {
         
-        output$ageDiabetes
-        output$gender
-        output$polurya
-        output$polydipsia
-        output$weightLoss
-        output$weakness
-        output$polyphagia
-        output$genitalThrush
-        output$visualBlurring
-        output$icthing
-        output$irritability
-        output$delayedHealing
-        output$partialParesis
-        output$muscleStiffness
-        output$alopecia
-        output$obesity
+        input$ageDiabetes
+        input$gender
+        input$polurya
+        input$polydipsia
+        input$weightLoss
+        input$weakness
+        input$polyphagia
+        input$genitalThrush
+        input$visualBlurring
+        input$icthing
+        input$irritability
+        input$delayedHealing
+        input$partialParesis
+        input$muscleStiffness
+        input$alopecia
+        input$obesity
     })
     
     }
