@@ -97,21 +97,21 @@ ui <- fluidPage(
                                 verticalLayout(
                                     h4("Please fill out the form below:"),
                                     numericInput(inputId = "ageDiabetes", label = "Age, years", value = 1, min = 1, max = 101, step = 1, width = "150px"),
-                                    radioButtons(inputId = "gender", label = "Gender", choices = c("Male" = "male", "Female" = "female")),
-                                    radioButtons(inputId = "polurya", label = "Do you have Polurya?", choices = c("Yes" = "yesPolurya", "No" = "noPolurya")),
-                                    radioButtons(inputId = "polydipsia", label = "Do you have Polydipsia?", choices = c("Yes" = "yesPolydipsia", "No" = "noPolydipsia")),
-                                    radioButtons(inputId = "weightLoss", label = "Have you experienced sudden weight loss recently?", choices = c("Yes" = "yesWeight", "No" = "noWeight")),
-                                    radioButtons(inputId = "weakness", label = "Do you experience weakness regularly?", choices = c("Yes" = "yesWeakness", "No" = "noWeakness")),
-                                    radioButtons(inputId = "polyphagia", label = "Do you have Polyphagia?", choices = c("Yes" = "yesPolyphagia", "No" = "noPolyphagia")),
-                                    radioButtons(inputId = "genitalThrush", label = "Do you have genital thrush?", choices = c("Yes" = "yesGenital", "No" = "noGenital")),
-                                    radioButtons(inputId = "visualBlurring", label = "Do you experience blurred vision?", choices = c("Yes" = "yesBlurring", "No" = "noBlurring")),
-                                    radioButtons(inputId = "icthing", label = "Do you experience itching?", choices = c("Yes" = "yesItching", "No" = "noItcing")),
-                                    radioButtons(inputId = "irritability", label = "Do you experience irritability?", choices = c("Yes" = "yesIrritability", "No" = "noIrritability")),
-                                    radioButtons(inputId = "delayedHealing", label = "Do you experience delayed healing?", choices = c("Yes" = "yesHealing", "No" = "noHealing")),
-                                    radioButtons(inputId = "partialParesis", label = "Do you have partial paresis?", choices = c("Yes" = "yesParesis", "No" = "noParesis")),
-                                    radioButtons(inputId = "muscleStiffness", label = "Do you experience muscle stiffness?", choices = c("Yes" = "yesStiffness", "No" = "noStiffness")),
-                                    radioButtons(inputId = "alopecia", label = "Do you have Alopecia?", choices = c("Yes" = "yesAlopecia", "No" = "noAlopecia")),
-                                    radioButtons(inputId = "obesity", label = "Do you consider yourself obese?", choices = c("Yes" = "yesObesity", "No" = "noObesity")),
+                                    radioButtons(inputId = "gender", label = "Gender", choices = c("Male" = "Male", "Female" = "Female")),
+                                    radioButtons(inputId = "polurya", label = "Do you have Polurya?", choices = c("Yes" = "Yes", "No" = "No")),
+                                    radioButtons(inputId = "polydipsia", label = "Do you have Polydipsia?", choices = c("Yes" = "Yes", "No" = "No")),
+                                    radioButtons(inputId = "weightLoss", label = "Have you experienced sudden weight loss recently?", choices = c("Yes" = "Yes", "No" = "No")),
+                                    radioButtons(inputId = "weakness", label = "Do you experience weakness regularly?", choices = c("Yes" = "Yes", "No" = "No")),
+                                    radioButtons(inputId = "polyphagia", label = "Do you have Polyphagia?", choices = c("Yes" = "Yes", "No" = "No")),
+                                    radioButtons(inputId = "genitalThrush", label = "Do you have genital thrush?", choices = c("Yes" = "Yes", "No" = "No")),
+                                    radioButtons(inputId = "visualBlurring", label = "Do you experience blurred vision?", choices = c("Yes" = "Yes", "No" = "No")),
+                                    radioButtons(inputId = "icthing", label = "Do you experience itching?", choices = c("Yes" = "Yes", "No" = "No")),
+                                    radioButtons(inputId = "irritability", label = "Do you experience irritability?", choices = c("Yes" = "Yes", "No" = "No")),
+                                    radioButtons(inputId = "delayedHealing", label = "Do you experience delayed healing?", choices = c("Yes" = "Yes", "No" = "No")),
+                                    radioButtons(inputId = "partialParesis", label = "Do you have partial paresis?", choices = c("Yes" = "Yes", "No" = "No")),
+                                    radioButtons(inputId = "muscleStiffness", label = "Do you experience muscle stiffness?", choices = c("Yes" = "Yes", "No" = "No")),
+                                    radioButtons(inputId = "alopecia", label = "Do you have Alopecia?", choices = c("Yes" = "Yes", "No" = "No")),
+                                    radioButtons(inputId = "obesity", label = "Do you consider yourself obese?", choices = c("Yes" = "Yes", "No" = "No")),
                                     actionButton(inputId = "submitDiabetesForm", label = "submit")
                                 )
                             ),
@@ -351,12 +351,22 @@ server <- function(input, output) {
         input$obesity
         
         #replace the hardcoded values here with the gathered INPUTS
-        person2 <- list(Age = 12, Gender = "Male", Polurya = "Yes", Polydipsia = "Yes",
-                        suddenWeightLoss = "Yes",
-                        Weakness = "Yes", Polyphagia = "Yes", GenitalThrush = "Yes", 
-                        visualBlurring = "Yes", Itching = "Yes", Irritability = "Yes", 
-                        DelayedHealing = "Yes", PartialParesis = "Yes", MuscleStiffness = "Yes",
-                        Alopecia = "Yes", Obesity = "Yes")
+        person2 <- list(Age = input$ageDiabetes,
+                        Gender = input$gender,
+                        Polurya = input$polurya,
+                        Polydipsia = input$polydipsia,
+                        suddenWeightLoss = input$weightLoss,
+                        Weakness = input$weakness,
+                        Polyphagia = input$polyphagia,
+                        GenitalThrush = input$genitalThrush, 
+                        visualBlurring = input$visualBlurring,
+                        Itching = input$icthing,
+                        Irritability = input$irritability, 
+                        DelayedHealing = input$delayedHealing,
+                        PartialParesis = input$partialParesis,
+                        MuscleStiffness = input$muscleStiffness,
+                        Alopecia = input$alopecia,
+                        Obesity = input$obesity)
         
         diabetes_pred <- predict(rf2, person2)
         
