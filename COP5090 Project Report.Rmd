@@ -1,5 +1,5 @@
 ---
-title: "COP5090 Project Report"
+title: "Machine Learning Shiny Applications: Report"
 author: "Vinicious Seixas, Hunter Stopford, Samuel de Oliveira"
 organization: "Florida Polytechnic University"
 url: "https://github.com/viniciusdel/MachineLearningPredictions"
@@ -13,32 +13,29 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # **Abstract**
 
-In this project, we apply various Machine Learning (ML) models to standard problems in the field of computational statistics and optimization, and create a user-interactive Shiny app for demonstration. A Random Forest (RF) classifer was used on a large dataset (~60,000 data points) of handwritten numbers in order to train a model to recognize numbers rendered on a digital draw-pad. We again applied RF to a medical cost dataset (1,338 data points) to create a linear regression model which could then be used in order to make predictions of insurance costs for the user, given relevant data like age, sex, BMI, region, etc. Lastly, we create a medical questionaire which again uses RF to make a highly-predictive diabetes diagnosis for users. 
+In this project, we apply various Machine Learning (ML) models to standard problems in the field of computational statistics and optimization, and create a user-interactive Shiny app for demonstration. A Random Forest (RF) classifier was used on a large dataset (~60,000 data points) of handwritten numbers in order to train a model to recognize numbers rendered on a digital draw-pad. We again applied RF to a medical cost dataset (1,338 data points) to create a linear regression model which could then be used in order to make predictions of insurance costs for the user, given relevant data like age, sex, BMI, region, etc. Lastly, we create a medical questionnaire which again uses RF to make a highly-predictive diabetes diagnosis for users. 
 
-## Number Recognition
+## Introduction 
 
-### Preliminary Work
 
-## Insurance Cost
 
-### Preliminary Work
+## Methods
 
-## Diabetes 
+For the digit recognition application, we used the MNIST database which is often used for testing and validating optical character recognition devices. 
 
-### Preliminary Work
+## Discussion 
+
 
 # References
 
 > UC Irvine. 
-1. M M Faniqul Islam
+1. M M Faniful Islam
 2. Rahatara Ferdousi
 3.Sadikur Rahman
 4.Yasmin Bushra
 
-Early Statge Diabetes Risk Prediction dataset.
+Early Stage Diabetes Risk Prediction dataset.
 https://archive.ics.uci.edu/ml/datasets/Early+stage+diabetes+risk+prediction+dataset.
-
-
 
 >NIST
 1. Yann LeCun
@@ -47,8 +44,6 @@ https://archive.ics.uci.edu/ml/datasets/Early+stage+diabetes+risk+prediction+dat
 
 MNIST database of handwritten digits.
 http://yann.lecun.com/exdb/mnist/index.html
-
-
 
 >Marc Agenis, Stackoverflow user
 
