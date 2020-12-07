@@ -9,15 +9,13 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
->TEST 12-7-20 8:46am
-
 # **Abstract**
 
-In this project, we apply various Machine Learning (ML) models to standard problems in the field of computational statistics and optimization, and create a user-interactive Shiny app for demonstration purposes. A Random Forest (RF) classifier was used on a large dataset of handwritten numerical digits in order to train a model to recognize numbers rendered on a digital draw-pad. We again applied RF to a medical cost dataset to create a regression model which could then be used in order to make predictions of insurance costs for the user, given relevant data like age, sex, BMI, region, etc. Lastly, we create a medical questionnaire which again uses a RF classification model to make a highly-predictive diabetes diagnosis for users. 
+In this project, we apply various Machine Learning (ML) models to quentissential problems in the field of computational statistics, and create a user-interactive Shiny app for demonstration purposes. A Random Forest (RF) classifier was used on a large dataset of handwritten numerical digits in order to train a model to recognize numbers rendered on a digital draw-pad. We again applied RF to a medical cost dataset to create a regression model which could then be used in order to make predictions of insurance costs for the user, given relevant data like age, sex, BMI, region, etc. Lastly, we create a medical questionnaire which again uses a RF classification model to make a highly-predictive diabetes diagnosis for users. We discuss the differences between the datasets and the metrics used to evaluate the ML algorithms. Lastly, we explain the design of our Shiny application and how the trained ML models were integrated into the user interface. 
 
 ## Introduction 
 
-Although other ML algorithms were tested on our datasets, we used in our Shiny application only the Random Forest algorithm, as designed originally by Leo Breiman and Adele Cutler and implemented into an R package by Andy Liaw and Matthew Weiner. We chose for our datasets one regression example (insurance cost prediction) and two classification examples (digit recognition and medical diagnosis). Broadly speaking, supervised machine learning (more on supervised vs. unsupervised in the Discussion section) can be divided into 'regression' and 'classification' problems. In the case of regression 
+Although other ML algorithms were tested on our datasets, we used in our Shiny application only the Random Forest algorithm, as designed originally by Leo Breiman and Adele Cutler and implemented into an R package by Andy Liaw and Matthew Weiner. We chose for our datasets one regression example--insurance cost prediction, and two classification examples--digit recognition and diabetic diagnosis. Broadly speaking, supervised machine learning (more on supervised vs. unsupervised in the Discussion section) can be divided into 'regression' and 'classification' algorithms, where a distinguishing feature is whether the output variable type is of a continuous or discrete value. Regression algorithms try to make the best fit line between input variables and values which can be real and continuous, like the price of insurance. Classification algorithms try to make a decision boundary 
 
 ## Methods
 
