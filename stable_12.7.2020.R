@@ -148,44 +148,13 @@ ui <- fluidPage(
 server <- function(input, output) {
     
     # Restore the object RF trained 
-    rf <- readRDS(file = "rf_trained.rds")
+    rf <- readRDS(file = "trained_models/rf_trained.rds")
+    rf2 <- readRDS(file = "trained_models/diabetes_fit.rds")
+    svm <- readRDS(file = "trained_models/insurance_fit.rds")
     
     confusionMatrx <- rf$confusion
     
     output$confusion <- renderTable({confusionMatrx})
-    
-    trainmodels <- function(){
-        # read in data
-        library(readr)
-        
-        # read training data
-        train_orig <- read_csv("train.csv")
-        
-        # read testing data
-        test_orig <- read_csv("test.csv")
-        
-        # save the training labels
-        train_orig_labels <- train_orig[, 1]
-        
-        # convert it to factor (for classification)
-        train_orig_labels <- as.factor(train_orig_labels$label)
-        
-        # install.packages("randomForest")
-        library(randomForest)
-        numTrees <- 25
-        
-        # Train on entire training dataset and predict on the test
-
-        cat("\n Traning model... \n")
-        
-        rf <- randomForest(train_orig[-1], train_orig_labels,
-                           xtest=test_orig, ntree=numTrees, keep.forest=TRUE)
-        
-        # Save an object to a file
-        saveRDS(rf, file = "rf_trained.rds")
-        
-        cat("\n Done training! \n")
-    }
     
     printImg <- function(x){
         # install.packages("RSEIS")
@@ -277,7 +246,7 @@ server <- function(input, output) {
         library(randomForest)        
         
         # Restore the object RF trained 
-        rf <- readRDS(file = "rf_trained.rds")
+        #rf <- readRDS(file = "rf_trained.rds")
         
         # make prediction
         pred <- predict(object = rf, newdata = vec, type = "response")
@@ -342,6 +311,17 @@ server <- function(input, output) {
         input$smoker
         input$region
         
+        #read the trained model
+        #svm <- readRDS("insurance_fit.rds")
+        
+        #replace the hardcoded values here with the gathered INPUTS
+        person <- list(age = 19, sex = "female", bmi = 27, children = 0, smoker = "yes", region = "southwest")
+        
+        #make prediction on price
+        predict(svm, newdata = person)
+        
+        
+        
     })
     
     
@@ -350,7 +330,7 @@ server <- function(input, output) {
     # submit button -> send all the inputs to the machine learning algorithm
     
     # Restore the object diabetes_fit.rds
-    rfDiabetes <- readRDS(file = "diabetes_fit.rds")
+    rfDiabetes <- readRDS(file = "trained_models/diabetes_fit.rds")
     
     observeEvent(input$submitDiabetesForm, handlerExpr = {
         
