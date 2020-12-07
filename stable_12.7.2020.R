@@ -121,7 +121,8 @@ ui <- fluidPage(
                                     renderPlot(
                                         plotOutput(outputId = "diabetesPlot", width = "1000px", height = "1000px", click, dblclick, hover, hoverDelay, hoverDelayType, brush, clickId, hoverId, inline)
                                     ),
-                                    h4("The ", a(href = "https://archive.ics.uci.edu/ml/machine-learning-databases/00529/", "dataset")," used for this visualization.")
+                                    h4("The ", a(href = "https://archive.ics.uci.edu/ml/machine-learning-databases/00529/", "dataset")," used for this visualization."),
+                                    h1(textOutput("diabetes_pred"))
                                     
                                 )
                             )
@@ -348,6 +349,30 @@ server <- function(input, output) {
         input$muscleStiffness
         input$alopecia
         input$obesity
+        
+        #replace the hardcoded values here with the gathered INPUTS
+        person2 <- list(Age = 12, Gender = "Male", Polurya = "Yes", Polydipsia = "Yes",
+                        suddenWeightLoss = "Yes",
+                        Weakness = "Yes", Polyphagia = "Yes", GenitalThrush = "Yes", 
+                        visualBlurring = "Yes", Itching = "Yes", Irritability = "Yes", 
+                        DelayedHealing = "Yes", PartialParesis = "Yes", MuscleStiffness = "Yes",
+                        Alopecia = "Yes", Obesity = "Yes")
+        
+        diabetes_pred <- predict(rf2, person2)
+        
+        diabetes_pred <- as.numeric(diabetes_pred)
+        #output prediction
+        
+        diagnosis <- "Unsure"
+        
+        if(diabetes_pred == 1){
+            diagnosis <- "Negative"
+        } else if (diabetes_pred == 2){
+            diagnosis <- "Positive"
+        }
+        
+        output$diabetes_pred <- renderText({diagnosis})
+        
     })
     
     }
