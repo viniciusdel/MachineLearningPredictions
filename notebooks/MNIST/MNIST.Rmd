@@ -1,0 +1,94 @@
+---
+title: "MNIST Recognition"
+output:
+  html_document:
+    df_print: paged
+---
+
+### Part 1: Data Work
+
+>Read both the training data and testing data.
+
+```{r}
+# read in data
+library(readr)
+
+#read training data
+train_orig <- read_csv("train.csv")
+
+#read testing data
+test_orig <- read_csv("test.csv")
+```
+
+>Split the label from the pixels and transform it to a category (factor)
+
+```{r}
+# save the training labels
+train_orig_labels <- train_orig[, 1]
+
+#convert it to factor (for classification)
+train_orig_labels <- as.factor(train_orig_labels$label)
+
+#this shows how many instances of each number we have
+summary(train_orig_labels)
+```
+
+>In the summary, we can see that there are about the same number of instances for each category.
+
+### Part 2: Training the algorithm.
+
+We will be using a `random forest` to predict the number entered.
+
+>training the algorithm (takes about 3 mins).
+
+```{r}
+library(randomForest)
+numTrees <- 25
+
+# Train on entire training dataset and predict on the test
+startTime <- proc.time()
+rf <- randomForest(train_orig[-1], train_orig_labels, xtest=test_orig, ntree=numTrees, keep.forest=TRUE)
+proc.time() - startTime
+```
+
+>summarizing the random forest results:
+
+```{r}
+rf
+```
+
+> Plotting the RF object.
+
+```{r}
+plot(rf, type= "l")
+```
+
+> Here we are looking at a row (a set of pixels) from the testing data, and plotting it. 
+
+```{r}
+#install.packages("RSEIS")
+library(RSEIS)
+
+#pick an image from the test poll
+number <- train_orig[12, 2:785]
+
+#flip matrix
+m = matrix(number, nrow = 28, ncol = 28, byrow = FALSE)
+im_numbers <- apply(m, 2, as.numeric)
+im_numbers <- mirror.matrix(im_numbers)
+
+#show image
+image(1:28, 1:28, im_numbers, col=gray((0:255)/255))
+```
+
+> finally we can predict what number it is: 
+
+```{r}
+#make prediction
+pred <- predict(object = rf, newdata = number, type= "response")
+
+#shwo prediction
+as.numeric(pred) - 1
+
+```
+

@@ -1,0 +1,163 @@
+---
+title: "Insurance Prediction"
+output: html_notebook
+---
+
+Using `insurance.csv`: 
+
+```{r}
+library(caret)
+library(randomForest)
+library(tidyverse)
+```
+
+Read file:
+
+```{r}
+# define the filename
+filename <- "insurance.csv"
+
+# load the CSV file from the local directory
+dataset <- read.csv(filename, header=FALSE)
+
+# set the column names in the dataset
+colnames(dataset) <- c("age", "sex", "bmi", "children", "smoker", "region", "charges")
+```
+
+
+```{r}
+glimpse(dataset)
+```
+```{r}
+dataset <- dataset[-1,]
+dataset <- drop_na(dataset)
+```
+
+
+```{r}
+dataset <- dataset %>% 
+          mutate(sex = factor(sex),
+                 smoker = factor(smoker),
+                 region = factor(region))
+```
+
+```{r}
+dataset <- dataset %>% 
+          mutate(age = as.integer(age),
+                 bmi = as.integer(bmi),
+                 children = as.integer(children),
+                 charges = as.double(charges),)
+```
+
+
+```{r}
+glimpse(dataset)
+
+mean(dataset$charges)
+```
+
+
+divide into 2:
+
+```{r}
+# create a list of 80% of the rows in the original dataset we can use for training
+validation_index <- createDataPartition(dataset$charges, p=0.80, list=FALSE);
+
+# select 20% of the data for validation
+validation <- dataset[-validation_index,]
+
+# use the remaining 80% of data to training and testing the models
+dataset <- dataset[validation_index,]
+```
+
+
+
+```{r}
+# take a peek at the first 5 rows of the data
+head(dataset)
+```
+
+```{r}
+# Run algorithms using 10-fold cross validation
+control <- trainControl(method="cv", number=10)
+metric <- "RMSE"
+```
+
+===============================================================================
+
+CART:   (45s)
+
+```{r}
+set.seed(7)
+fit.cart <- train(charges~., data=dataset, method="rpart", metric=metric, trControl=control)
+```
+
+LDA:    (Failed)
+
+```{r}
+set.seed(7)
+fit.lda <- train(charges~., data=dataset, method="lda", metric=metric, trControl=control)
+```
+
+KNN:    (3s)
+
+```{r}
+set.seed(7)
+fit.knn <- train(charges~., data=dataset, method="knn", metric=metric, trControl=control)
+```
+
+SVM:    (5s)
+
+```{r}
+set.seed(7)
+fit.svm <- train(charges~., data=dataset, method="svmRadial", metric=metric, trControl=control)
+```
+
+RF: (~30s) (Best?)
+
+```{r}
+set.seed(7)
+fit.rf <- train(charges~., data=dataset, method="rf", metric=metric, trControl=control)
+```
+
+Neural Net: (FAILED)
+
+```{r}
+set.seed(7)
+fit.nnet <- train(charges~., data=dataset, method="nnet", metric=metric, trControl=control, trace = FALSE);
+```
+
+Summarize:
+
+```{r}
+#print(fit.cart)
+results <- resamples(list(cart = fit.cart, knn=fit.knn, svm=fit.svm, rf=fit.rf, nnet=fit.nnet))
+summary(results)
+```
+
+```{r}
+print(fit.rf)
+```
+
+```{r}
+plot(fit.rf)
+```
+
+```{r}
+plot(fit.rf$finalModel)
+```
+```{r}
+head(dataset)
+```
+>Making a single prediction
+
+```{r}
+man1 <- list(age= 19, sex= "male", bmi = 25, children = 2, smoker ="no", region = "southwest")
+
+predict(fit.rf, newdata = man1)
+```
+
+
+
+
+

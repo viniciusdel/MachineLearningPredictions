@@ -1,0 +1,186 @@
+---
+title: "Diabetes"
+output:
+  html_document:
+    df_print: paged
+---
+
+### Part 1: Data Work
+
+>Read both the training data and testing data.
+
+```{r}
+library(caret)
+library(tidyverse)
+
+#library(ggplot)
+```
+
+
+```{r}
+# define the filename
+filename <- "diabetes.csv"
+# load the CSV file from the local directory
+dataset <- read.csv(filename, header=FALSE)
+# set the column names in the dataset
+colnames(dataset) <- c("Age", "Gender", "Polurya", "Polydipsia", "suddenWeightLoss", "Weakness", "Polyphagia",
+                       "GenitalThrush", "visualBlurring", "Itching", "Irritability", "DelayedHealing",
+                       "PartialParesis", "MuscleStiffness", "Alopecia", "Obesity", "Class")
+```
+
+>Drop NA Values:
+
+```{r}
+dataset <- drop_na(dataset)
+dataset <- dataset[-1, ]
+```
+
+>Glimpse our dataset:
+
+```{r}
+head(dataset)
+```
+>We notice that all the fields are still `chr` so we change them to either a factor or an integer:
+
+```{r}
+dataset <- dataset %>% 
+          mutate(Age = as.integer(Age),
+                 Gender = factor(Gender),
+                 Polurya = factor(Polurya),
+                 Polydipsia = factor(Polydipsia),
+                 suddenWeightLoss = factor(suddenWeightLoss),
+                 Weakness = factor(Weakness),
+                 Polyphagia = factor(Polyphagia),
+                 GenitalThrush = factor(GenitalThrush),
+                 visualBlurring = factor(visualBlurring),
+                 Itching = factor(Itching),
+                 Irritability = factor(Irritability),
+                 DelayedHealing = factor(DelayedHealing),
+                 PartialParesis = factor(PartialParesis),
+                 MuscleStiffness = factor(MuscleStiffness),
+                 Alopecia = factor(Alopecia),
+                 Obesity = factor(Obesity),
+                 Class = factor(Class))
+```
+
+>Let's look oat our classes (positive or negative)
+
+```{r}
+summary(dataset$Class)
+mean(dataset$Age)
+```
+
+> Now we split the data into 80% Training and 20% Testing:
+
+```{r}
+# create a list of 80% of the rows in the original dataset we can use for training
+validation_index <- createDataPartition(dataset$Class, p=0.80, list=FALSE);
+
+# select 20% of the data for validation
+validation <- dataset[-validation_index,]
+
+# use the remaining 80% of data to training and testing the models
+dataset <- dataset[validation_index,]
+```
+
+> Since we're running a Classification problem, our metric will be accuracy and we'll cross validate that accuracy 10 times.
+
+```{r}
+# Run algorithms using 10-fold cross validation
+control <- trainControl(method="cv", number=10)
+metric <- "Accuracy"
+```
+
+>We now start training our models:
+
+>LM >%> varImp
+
+>CART
+
+```{r}
+set.seed(7)
+fit.cart <- train(Class~., data=dataset, method="rpart", metric=metric, trControl=control)
+```
+
+>LDA
+
+```{r}
+set.seed(7)
+fit.lda <- train(Class~., data=dataset, method="lda", metric=metric, trControl=control)
+```
+
+>KNN
+
+```{r}
+set.seed(7)
+fit.knn <- train(Class~., data=dataset, method="knn", metric=metric, trControl=control)
+```
+
+>RF
+
+```{r}
+set.seed(7)
+fit.rf <- train(Class~., data=dataset, method="rf", metric=metric, trControl=control)
+```
+
+>Neural Networks
+
+```{r}
+set.seed(7)
+fit.nnet <- train(Class~., data=dataset, method="nnet", metric=metric, trControl=control,trace = FALSE);
+```
+
+>Summarize our results: Notice the accuracy mean:
+
+```{r}
+results <- resamples(list(cart = fit.cart, lda = fit.lda, knn=fit.knn, rf=fit.rf, nnet = fit.nnet))
+summary(results)
+```
+
+>We notice that RF has the highest accuracy (95.5%), so let's fine tune that by adding more branches and seeing if it makes a difference:
+
+```{r}
+modellist <- list()
+#train with different ntree parameters
+for (ntree in c(5, 8, 10, 25, 30, 40, 50)){
+  set.seed(7)
+  fit <- train(Class~.,
+               data = dataset,
+               method = 'rf',
+               metric = 'Accuracy',
+               ntree = ntree)
+  key <- toString(ntree)
+  modellist[[key]] <- fit
+}
+
+#Compare results
+results <- resamples(modellist)
+summary(results)
+```
+
+> At around 25 branches, the results seem to be the same.
+> It selected 16 branches.
+
+```{r}
+dotplot(results)
+```
+
+```{r}
+print(fit.rf)
+```
+
+> Apparently the default selected mtry (9) was the best. 
+
+```{r}
+varImp(fit.rf)
+```
+
+
+
+
+
+
+
+
+
+
