@@ -5,8 +5,6 @@
 # Find out more about building applications with Shiny here:
 #
 #    http://shiny.rstudio.com/
-#
-#TEST 12-6-20 3:10pm
 
 # load the shiny package
 library(shiny)
