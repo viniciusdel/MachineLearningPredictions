@@ -11,10 +11,11 @@
 # load the shiny package
 library(shiny)
 
+# install.packages("shinythemes")
 # load the shinythemes package
 library(shinythemes)
 
-#install.packages("magick")
+# install.packages("magick")
 library(magick)
 
 # Define UI for application
@@ -28,7 +29,6 @@ ui <- fluidPage(
                # mini-project which accepts user-drawn numbers and displays the number as a text output
                tabPanel(title = span(strong("Number Recognition"), style = "color: #000000"),
                         "This mini-project takes the user-drawn images and passes it to a machine learning algorithm which recognizes the number and displays it for the user.",
-                        # include description here
                         fluidRow(
                             column(width = 4,
                                    wellPanel(
@@ -41,16 +41,15 @@ ui <- fluidPage(
                                    plotOutput("plot", width = "400px", height = "500px", hover = hoverOpts(id = "hover", delay = 100, delayType = "throttle", clip = TRUE, nullOutside = TRUE), click = "click")
                                    ),
                             
-                            column(width = 6, allign = "center",
+                            column(width = 8, allign = "center",
                                    wellPanel(
-                                       h4("Your predicted number was: "),
+                                       h2("Your predicted number was: "),
                                        h1(textOutput("my_pred"))
                                        ),
                                    wellPanel(
                                        h2("Confusion Matrix: "),
                                        tableOutput("confusion")
-                                       ),
-                                   h4("The ", a(href = "http://yann.lecun.com/exdb/mnist/index.html", "database"), " used for this visualization.")
+                                       )
                                    )
                             )
                         ),
@@ -71,26 +70,24 @@ ui <- fluidPage(
                                    numericInput(inputId = "feet", label = "ft", value = 5, min = 4, max = 8, step = 1, width = "150px"),
                                    numericInput(inputId = "inches", label = "in.", value = 11, min = 1, max = 11, step = 1, width = "150px")
                                    ),
-                    numericInput(inputId = "weight", label = "Weight, lbs", value = 155, min = 85, max = 350, step = 1, width = "150px"),
-                           numericInput(inputId = "children", label = "Children", value = 0, min = 0, max = 10, step = 1, width = "150px"),
-                           radioButtons(inputId = "smoker", label = "Smoker?", choices = c("No" = "no", "Yes" = "yes")),
-                           selectInput(inputId = "region", label = "Region in the US you currently reside in", choices = c("northeast", "southeast", "southwest", "northwest"), width = "150px"),
-                           actionButton(inputId = "submitInsuranceForm", label = "submit")
-                           )
-                        ),
+                               numericInput(inputId = "weight", label = "Weight, lbs", value = 155, min = 85, max = 350, step = 1, width = "150px"),
+                               numericInput(inputId = "children", label = "Children", value = 0, min = 0, max = 10, step = 1, width = "150px"),
+                               radioButtons(inputId = "smoker", label = "Smoker?", choices = c("No" = "no", "Yes" = "yes")),
+                               selectInput(inputId = "region", label = "Region in the US you currently reside in", choices = c("northeast", "southeast", "southwest", "northwest"), width = "150px"),
+                               actionButton(inputId = "submitInsuranceForm", label = "submit")
+                               )
+                           ),
                        mainPanel(width = 9,
                                  verticalLayout(
-                                     # Plots will go here...,
-                                     # renderPlot(
-                                     #     plotOutput(outputId = "medicalInsuranceCostPlot", width = "1000px", height = "1000px")
-                                     # ),
-                                     h1("Your calculated Medical Insurance Cost is ($):"),
-                                     h1(textOutput("insurance_pred"), style = "color: #5CB8B2", br(), hr()),
-                                     h4("The ", a(href = "https://www.kaggle.com/mirichoi0218/insurance", "dataset"), " used for this visualization.")
+                                     wellPanel(
+                                         h1("Your calculated Medical Insurance Cost is:"),
+                                         h1(textOutput("insurance_pred"), style = "color: #5CB8B2", br(), hr())
+                                         )
+                                     )
                                  )
-                    )
+                       ),
                    ),
-               ),
+               
                
                # *************************
                # TAB 3: Diabetes
@@ -130,14 +127,10 @@ ui <- fluidPage(
                             ),
                             mainPanel(width = 6,
                                 verticalLayout(
-                                    # Plots will go here...,
-                                    # renderPlot(
-                                    #     plotOutput(outputId = "diabetesPlot", width = "1000px", height = "1000px", click, dblclick, hover, hoverDelay, hoverDelayType, brush, clickId, hoverId, inline)
-                                    # ),
-                                    h1("Diabetes Test Results:"),
-                                    h1(textOutput("diabetes_pred"), style = "color: #009FDF", br(), hr()),
-                                    h4("The ", a(href = "https://archive.ics.uci.edu/ml/machine-learning-databases/00529/", "dataset")," used for this visualization.")
-                                    
+                                    wellPanel(
+                                        h1("Diabetes Test Results:"),
+                                        h1(textOutput("diabetes_pred"), style = "color: #009FDF", br(), hr())
+                                    )
                                 )
                             )
                         )
@@ -145,7 +138,7 @@ ui <- fluidPage(
                
                # *************************
                # TAB 4: About
-               # page which displays information about the app
+               # page which displays information about the Shiny App
                tabPanel(title = span(strong("About"), style = "color: #000000"),
                         titlePanel(HTML("<strong> Applications of Machine Learning </strong>
                                         <br/r> COP5090: Scientific Computation and Programming <br/r>
@@ -157,10 +150,17 @@ ui <- fluidPage(
                                         Personal Medical Insurance Costs, Diabetes <br/r>
                                         <h2> Samuel de Oliveira <br/r>
                                         <h4> Data Visualization </h4>
-                                        Numeric Recognition <br/r>"))
+                                        Numeric Recognition, Data Visualization <br/r><br/r>"),
+                                   ),
+                        wellPanel(
+                            h4("The GitHub ", a(href = "https://github.com/viniciusdel/MachineLearningPredictions.git", "repository")," used for this Final Project"),
+                            h4("The ", a(href = "http://yann.lecun.com/exdb/mnist/index.html", "dataset"), " used for the Number Recogniton"),
+                            h4("The ", a(href = "https://www.kaggle.com/mirichoi0218/insurance", "dataset"), " used for the Personal Medical Insurance Costs"),
+                            h4("The ", a(href = "https://archive.ics.uci.edu/ml/machine-learning-databases/00529/", "dataset")," used for the Diabetes", br(), hr())
+                            )
                         )
+               )
     )
-)
 
 
 # Define server logic required
@@ -176,6 +176,7 @@ server <- function(input, output) {
     output$confusion <- renderTable({confusionMatrx})
     
     printImg <- function(x){
+        
         # install.packages("RSEIS")
         library(RSEIS)
         
@@ -216,16 +217,14 @@ server <- function(input, output) {
     
     # Send button -> send the user-drawn number to the machine learning algorithm
     observeEvent(input$send, handlerExpr = {
-        # vals$x <- NULL; vals$y <- NULL
+        
         png(file = "myPlot.png",
             width = 500, height = 500)
         
-        # make line thicc
+        # Make line thicc
         plot(0:27, 0:27, lwd = 0.1, cex = 0, xlab = "", ylab = "", axes = FALSE)
 
-        # points(x = vals$x, y = vals$y, type = "l", lwd = 50)
-
-        # lwd is set to the SliderInput size
+        # `lwd` is set to the SliderInput size
         points(x = vals$x, y = vals$y, type = "l", lwd = input$mywidth)
     
         # save image
@@ -249,7 +248,7 @@ server <- function(input, output) {
         # Access data in raw format and convert to integer (it's in RAW)
         vec <- as.vector(tiffImage[[1]])
         
-        # convert o ascii
+        # convert to ascii
         vec <- rawToChar(vec, multiple = TRUE)
         
         library(gtools)
@@ -264,9 +263,6 @@ server <- function(input, output) {
         
         library(randomForest)        
         
-        # Restore the object RF trained 
-        #rf <- readRDS(file = "rf_trained.rds")
-        
         # make prediction
         pred <- predict(object = rf, newdata = vec, type = "response")
         
@@ -275,30 +271,30 @@ server <- function(input, output) {
         confusionMatrx <- rf$confusion
         
         # plot(rf$confusion)
-        
         output$confusion <- renderTable({confusionMatrx})
         
         printImg(vec)
     })
     
     observeEvent(input$hover, {
+        
         if (draw()) {
+            
             vals$x <- c(vals$x, input$hover$x)
             vals$y <- c(vals$y, input$hover$y)
         }})
     output$plot = renderPlot({
+        
         plot(x = vals$x, y = vals$y, xlim = c(0, 28), ylim = c(0, 28), ylab = "y", xlab = "x", type = "l", lwd = input$mywidth)
-        # cat("X value: ", vals$x, "Y Value: ", vals$y, "\n")
     })
     
     
     # *************************
     # TAB 2
-    # submit button -> send all the inputs to the machine learning algorithm
+    # Submit button -> send all the inputs to the machine learning algorithm
     observeEvent(input$submitInsuranceForm, handlerExpr = {
         
-        # The values: ageInsurance, sex, bmiMetric, children, smoker, and region
-        # will be sent to the machine learning algorithm
+        # the values: ageInsurance, sex, bmiMetric, children, smoker, and region will be sent to the machine learning algorithm
         input$ageInsurance
         input$sex
         
@@ -317,17 +313,17 @@ server <- function(input, output) {
         
         person <- list(age = input$ageInsurance, sex = "female", bmi = bmiMetric, children = input$children, smoker = input$smoker, region = input$region)
         
-        #make prediction on price
+        # make prediction on price
         insurance_pred <- predict(svm, newdata = person)
         
-        #output prediction
-        output$insurance_pred <- renderText({as.numeric(insurance_pred)})
+        # send output prediction to UI
+        output$insurance_pred <- renderText({paste0("$", format(as.numeric(insurance_pred), digits = 7))})
     })
     
     
     # *************************
     # TAB 3
-    # submit button -> send all the inputs to the machine learning algorithm
+    # Submit button -> send all the inputs to the machine learning algorithm
     
     # Restore the object diabetes_fit.rds
     rfDiabetes <- readRDS(file = "trained_models/diabetes_fit.rds")
@@ -351,7 +347,7 @@ server <- function(input, output) {
         input$alopecia
         input$obesity
         
-        #replace the hardcoded values here with the gathered INPUTS
+        # replace the hardcoded values here with the gathered INPUTS
         person2 <- list(Age = input$ageDiabetes,
                         Gender = input$gender,
                         Polurya = input$polurya,
@@ -372,25 +368,25 @@ server <- function(input, output) {
         diabetes_pred <- predict(rf2, person2)
         
         diabetes_pred <- as.numeric(diabetes_pred)
-        #output prediction
         
+        # output prediction
         diagnosis <- "Unsure"
         
         if(diabetes_pred == 1){
+            
             diagnosis <- "Negative"
+            
         } else if (diabetes_pred == 2){
+            
             diagnosis <- "Positive"
         }
         
+        # send output prediction to UI
         output$diabetes_pred <- renderText({diagnosis})
         
     })
     
-    }
-
-#output$values= renderText({
-#print("Test string")
-#})
+}
 
 # Run the application 
 shinyApp(ui = ui, server = server)
